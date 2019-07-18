@@ -7,6 +7,7 @@ import (
 
 	en "github.com/dbenoot/moonbase/engine"
 	"github.com/marcusolsson/tui-go"
+	"github.com/kutase/go-gameloop"
 )
 
 var engineOutput string
@@ -14,6 +15,8 @@ var turn int
 var base en.Moonbase
 
 func main() {
+
+
 
 	base = en.Start()
 
@@ -46,23 +49,30 @@ func main() {
 	command := tui.NewVBox(mainBox, inputBox)
 	command.SetSizePolicy(tui.Expanding, tui.Expanding)
 
-	input.OnSubmit(func(e *tui.Entry) {
+	gl := gameLoop.New(10, func(delta float64) {
+		input.OnSubmit(func(e *tui.Entry) {
 
-		engineOutput, turn, base = en.Input(e.Text())
+			engineOutput, turn, base = en.Input(e.Text())
 
-		main.Append(tui.NewHBox(
-			tui.NewLabel("turn "+strconv.Itoa(turn)),
-			tui.NewPadder(1, 0, tui.NewLabel(" - ")),
-			tui.NewLabel(time.Now().Format("15:04")),
-			tui.NewPadder(1, 0, tui.NewLabel(" >")),
-			tui.NewLabel(engineOutput),
-			tui.NewSpacer(),
-		))
-		input.SetText("")
+			main.Append(tui.NewHBox(
+				tui.NewLabel("turn "+strconv.Itoa(turn)),
+				tui.NewPadder(1, 0, tui.NewLabel(" - ")),
+				tui.NewLabel(time.Now().Format("15:04")),
+				tui.NewPadder(1, 0, tui.NewLabel(" >")),
+				tui.NewLabel(engineOutput),
+				tui.NewSpacer(),
+			))
+			input.SetText("")
 
-		sbcontent.SetText(base.Name + "\n" + base.Government + "\n" + base.Sponsor + "\n\n" + strconv.Itoa(base.Money) + "\n" + strconv.Itoa(base.Health) + "\n" + strconv.Itoa(base.Lifesupport) + "\n\n" + strconv.Itoa(base.Water) + "\n" + strconv.Itoa(base.Food) + "\n" + strconv.Itoa(base.Fuel))
+		})
 
-	})
+		sbcontent.SetText(base.Name + "\n" + base.Government + "\n" + base.Sponsor + "\n\n" + strconv.Itoa(base.Money) + "\n" + strconv.Itoa(base.Health) + "\n" + strconv.Itoa(base.Lifesupport) + "\n\n" + strconv.Itoa(base.Water) + "\n" + strconv.Itoa(base.Food) + "\n" + strconv.Itoa(base.Fuel) + "\n\n\n" + "tick:" +  strconv.FormatFloat(delta, 'f', 6, 64	))
+
+		})
+
+	gl.Start()
+
+
 
 	root := tui.NewHBox(sidebar, command)
 
