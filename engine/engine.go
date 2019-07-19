@@ -6,11 +6,12 @@ import (
 	gameLoop "github.com/kutase/go-gameloop"
 )
 
+var glrunning bool
 var turn, day, time int
 var period string
 var moonbase Moonbase
 
-//var gl gameLoop
+// var gl gameLoop
 
 func Start() {
 	turn = 1
@@ -26,37 +27,40 @@ func Start() {
 	})
 
 	gl.Start()
-
+	glrunning = true
 }
 
 func Input(input string) string {
 
 	switch input {
-	case "text":
-		return getText()
+	case "time":
+		return getTime()
 	case "spend":
 		moonbase.Money = moonbase.Money - 1000
-		return input + " - Money spent"
+		return "Money spent"
 	default:
-		return input + " - Unknown input"
+		return "Unknown input"
 	}
 
 	return input + " - nothing happened"
 }
 
 func GetSideBarInfo() string {
-	return moonbase.Name + "\n" + moonbase.Government + "\n" + moonbase.Sponsor + "\n\n" + strconv.Itoa(moonbase.Money) + "\n" + strconv.Itoa(moonbase.Health) + "\n" + strconv.Itoa(moonbase.Lifesupport) + "\n\n" + strconv.Itoa(moonbase.Water) + "\n" + strconv.Itoa(moonbase.Food) + "\n" + strconv.Itoa(moonbase.Fuel) + "\n\nDay : " + strconv.Itoa(day) + "\nTime : " + strconv.Itoa(time)
+	return moonbase.Name + "\n" + moonbase.Government + "\n" + moonbase.Sponsor + "\n\n" + strconv.Itoa(moonbase.Money) + "\n" + strconv.Itoa(moonbase.Health) + "\n" + strconv.Itoa(moonbase.Lifesupport) + "\n\n" + strconv.Itoa(moonbase.Water) + "\n" + strconv.Itoa(moonbase.Food) + "\n" + strconv.Itoa(moonbase.Fuel) + "\n\nDay : " + strconv.Itoa(day) + "\nTime : " + period
 }
 
-func getText() string {
-	return "THIS IS TEXT"
+func getTime() string{
+	return strconv.Itoa(time)
 }
 
-// func getStatus() []int {
-
-// }
 func PauseUnPause() {
-
+	// if glrunning == true {
+	// 	gl.Stop()
+	// 	glrunning = false
+	// } else {
+	// 	gl.Start()
+	// 	glrunning = true
+	// }
 }
 
 func processDateTime() {

@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"strconv"
 	"time"
 
 	en "github.com/dbenoot/moonbase/engine"
@@ -10,13 +9,12 @@ import (
 )
 
 var engineOutput string
-var turn int
 
 func main() {
 
 	en.Start()
 
-	sbcontent := tui.NewLabel("SIDEBAR")
+	sbcontent := tui.NewLabel(en.GetSideBarInfo())
 
 	sidebar := tui.NewVBox(
 		sbcontent,
@@ -43,21 +41,7 @@ func main() {
 	command := tui.NewVBox(mainBox, inputBox)
 	command.SetSizePolicy(tui.Expanding, tui.Expanding)
 
-	input.OnSubmit(func(e *tui.Entry) {
 
-		engineOutput = en.Input(e.Text())
-
-		main.Append(tui.NewHBox(
-			tui.NewLabel("turn "+strconv.Itoa(turn)),
-			tui.NewPadder(1, 0, tui.NewLabel(" - ")),
-			tui.NewLabel(time.Now().Format("15:04")),
-			tui.NewPadder(1, 0, tui.NewLabel(" >")),
-			tui.NewLabel(engineOutput),
-			tui.NewSpacer(),
-		))
-		input.SetText("")
-		sbcontent.SetText(en.GetSideBarInfo())
-	})
 
 	root := tui.NewHBox(sidebar, command)
 
@@ -69,6 +53,28 @@ func main() {
 	ui.SetKeybinding("Esc", func() { ui.Quit() })
 
 	ui.SetKeybinding("Space", func() { en.PauseUnPause() })
+
+	go func() {
+		for range time.Tick(time.Second*1) {
+			ui.Update(func() {
+				sbcontent.SetText(en.GetSideBarInfo())
+			})
+		}
+	}()
+
+ go input.OnSubmit(func(e *tui.Entry) {
+
+	 	engineOutput = en.Input(e.Text())
+
+	 	main.Append(tui.NewHBox(
+	 		tui.NewPadder(1, 0, tui.NewLabel(">")),
+	 		tui.NewLabel(engineOutput),
+	 		tui.NewSpacer(),
+	 	))
+	 	input.SetText("")
+	 	sbcontent.SetText(en.GetSideBarInfo())
+
+	 })
 
 	if err := ui.Run(); err != nil {
 		log.Fatal(err)
