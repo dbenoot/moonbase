@@ -12,18 +12,30 @@ type Moonbase struct {
 	Health      int // in %
 }
 
-// type Location struct {
-// 	Name        string
-// 	Description string
-// 	Transitions []string
-// 	Subsystems  map[string]int
-// 	Occupied    string
-// 	Specialist  map[string]int
-// }
+type Location struct {
+	Name        string
+	Description string
+	Transitions []string
+}
+
+type Astronaut struct {
+	Name     string
+	Location string
+}
 
 func NewBase(name string, government string, sponsor string, money int, water int, food int, fuel int, lifesupport int, health int) Moonbase {
 	m := Moonbase{name, government, sponsor, money, water, food, fuel, lifesupport, health}
 	return m
+}
+
+func NewAstronaut(name string, location string) Astronaut {
+	a := Astronaut{name, location}
+	return a
+}
+
+func NewLocation(name string, description string, transition []string) Location {
+	l := Location{name, description, transition}
+	return l
 }
 
 // func (s Spaceship) Process(lm map[string]Location, numastro int) Spaceship {

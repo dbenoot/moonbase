@@ -11,6 +11,9 @@ var turn, day, time int
 var period string
 var moonbase Moonbase
 
+var locations []Location
+var astronauts []Astronaut
+
 var gl = gameLoop.New(10, func(delta float64) {
 
 	processDateTime()
@@ -24,11 +27,19 @@ func Start() {
 
 	moonbase = NewBase("Moon Base Alpha", "Research Station", "Self Funded", 10000, 5000, 300, 500, 100, 100)
 
-	// gl = gameLoop.New(10, func(delta float64) {
+	// Create some locations
 
-	// 	processDateTime()
+	l1 := NewLocation("Laboratory", "This is the laboratory.", []string{"Dormitory", "Airlock"})
+	l2 := NewLocation("Dormitory", "This is the dormitory.", []string{"Laboratory"})
 
-	// })
+	locations = []Location{l1, l2}
+
+	// Create some astronauts
+
+	a1 := NewAstronaut("Kerbal", "Laboratory")
+	a2 := NewAstronaut("Leto", "Dormitory")
+
+	astronauts = []Astronaut{a1, a2}
 
 	gl.Start()
 	glrunning = true
