@@ -11,7 +11,11 @@ var turn, day, time int
 var period string
 var moonbase Moonbase
 
-// var gl gameLoop
+var gl = gameLoop.New(10, func(delta float64) {
+
+	processDateTime()
+
+})
 
 func Start() {
 	turn = 1
@@ -20,11 +24,11 @@ func Start() {
 
 	moonbase = NewBase("Moon Base Alpha", "Research Station", "Self Funded", 10000, 5000, 300, 500, 100, 100)
 
-	gl := gameLoop.New(10, func(delta float64) {
+	// gl = gameLoop.New(10, func(delta float64) {
 
-		processDateTime()
+	// 	processDateTime()
 
-	})
+	// })
 
 	gl.Start()
 	glrunning = true
@@ -38,6 +42,9 @@ func Input(input string) string {
 	case "spend":
 		moonbase.Money = moonbase.Money - 1000
 		return "Money spent"
+	case "pause":
+		PauseUnPause()
+		return "Pause toggled"
 	default:
 		return "Unknown input"
 	}
@@ -49,18 +56,18 @@ func GetSideBarInfo() string {
 	return moonbase.Name + "\n" + moonbase.Government + "\n" + moonbase.Sponsor + "\n\n" + strconv.Itoa(moonbase.Money) + "\n" + strconv.Itoa(moonbase.Health) + "\n" + strconv.Itoa(moonbase.Lifesupport) + "\n\n" + strconv.Itoa(moonbase.Water) + "\n" + strconv.Itoa(moonbase.Food) + "\n" + strconv.Itoa(moonbase.Fuel) + "\n\nDay : " + strconv.Itoa(day) + "\nTime : " + period
 }
 
-func getTime() string{
+func getTime() string {
 	return strconv.Itoa(time)
 }
 
 func PauseUnPause() {
-	// if glrunning == true {
-	// 	gl.Stop()
-	// 	glrunning = false
-	// } else {
-	// 	gl.Start()
-	// 	glrunning = true
-	// }
+	if glrunning == true {
+		gl.Stop()
+		glrunning = false
+	} else {
+		gl.Start()
+		glrunning = true
+	}
 }
 
 func processDateTime() {
