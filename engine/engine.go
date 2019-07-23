@@ -7,26 +7,23 @@ import (
 )
 
 var glrunning bool
-var turn, day, time int
+var day, time int
 var period string
 var moonbase Moonbase
 var Output = make(chan string)
 
 var locations []Location
-var astronauts []Astronaut
+var astronauts []*Astronaut
 
 var gl = gameLoop.New(10, func(delta float64) {
 
 	processDateTime()
-
 	for _, a := range astronauts {
-		processAstronaut(a)
+		a.processAstronaut()
 	}
-
 })
 
 func Start() {
-	turn = 1
 	day = 1
 	time = 1
 
@@ -41,10 +38,10 @@ func Start() {
 
 	// Create some astronauts
 
-	a1 := NewAstronaut("Kerbal", "Laboratory", 0)
-	a2 := NewAstronaut("Leto", "Dormitory", 10)
+	a1 := &Astronaut{"Kerbal", "Laboratory", 0}
+	a2 := &Astronaut{"Leto", "Dormitory", 10}
 
-	astronauts = []Astronaut{a1, a2}
+	astronauts = []*Astronaut{a1, a2}
 
 	gl.Start()
 	glrunning = true
@@ -79,9 +76,11 @@ func PauseUnPause() {
 	if glrunning == true {
 		gl.Stop()
 		glrunning = false
+		Output <- "Game paused."
 	} else {
 		gl.Start()
 		glrunning = true
+		Output <- "Game unpaused."
 	}
 }
 
@@ -97,13 +96,5 @@ func processDateTime() {
 		period = "Afternoon"
 	} else {
 		period = "Night"
-	}
-}
-
-func processAstronaut(a Astronaut) {
-	a.AP++
-	if a.AP >= 100 {
-		Output <- "astronaut did something"
-		a.AP = 0
 	}
 }

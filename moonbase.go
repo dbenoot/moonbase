@@ -50,8 +50,6 @@ func main() {
 
 	ui.SetKeybinding("Esc", func() { ui.Quit() })
 
-	ui.SetKeybinding("Space", func() { en.PauseUnPause() })
-
 	go func() {
 		for range time.Tick(time.Second * 1) {
 			ui.Update(func() {

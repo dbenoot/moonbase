@@ -18,20 +18,9 @@ type Location struct {
 	Transitions []string
 }
 
-type Astronaut struct {
-	Name     string
-	Location string
-	AP       int
-}
-
 func NewBase(name string, government string, sponsor string, money int, water int, food int, fuel int, lifesupport int, health int) Moonbase {
 	m := Moonbase{name, government, sponsor, money, water, food, fuel, lifesupport, health}
 	return m
-}
-
-func NewAstronaut(name string, location string, AP int) Astronaut {
-	a := Astronaut{name, location, AP}
-	return a
 }
 
 func NewLocation(name string, description string, transition []string) Location {
