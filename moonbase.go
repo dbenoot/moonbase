@@ -41,8 +41,6 @@ func main() {
 	command := tui.NewVBox(mainBox, inputBox)
 	command.SetSizePolicy(tui.Expanding, tui.Expanding)
 
-
-
 	root := tui.NewHBox(sidebar, command)
 
 	ui, err := tui.New(root)
@@ -55,26 +53,33 @@ func main() {
 	ui.SetKeybinding("Space", func() { en.PauseUnPause() })
 
 	go func() {
-		for range time.Tick(time.Second*1) {
+		for range time.Tick(time.Second * 1) {
 			ui.Update(func() {
 				sbcontent.SetText(en.GetSideBarInfo())
 			})
 		}
 	}()
 
- go input.OnSubmit(func(e *tui.Entry) {
+	go input.OnSubmit(func(e *tui.Entry) {
 
-	 	engineOutput = en.Input(e.Text())
+		en.Input(e.Text())
+		input.SetText("")
+		sbcontent.SetText(en.GetSideBarInfo())
 
-	 	main.Append(tui.NewHBox(
-	 		tui.NewPadder(1, 0, tui.NewLabel(">")),
-	 		tui.NewLabel(engineOutput),
-	 		tui.NewSpacer(),
-	 	))
-	 	input.SetText("")
-	 	sbcontent.SetText(en.GetSideBarInfo())
+	})
 
-	 })
+	go func() {
+		for {
+			val, _ := <-en.Output
+
+			main.Append(tui.NewHBox(
+				tui.NewPadder(1, 0, tui.NewLabel(">")),
+				tui.NewLabel(val),
+				tui.NewSpacer(),
+			))
+
+		}
+	}()
 
 	if err := ui.Run(); err != nil {
 		log.Fatal(err)

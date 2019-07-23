@@ -21,6 +21,7 @@ type Location struct {
 type Astronaut struct {
 	Name     string
 	Location string
+	AP       int
 }
 
 func NewBase(name string, government string, sponsor string, money int, water int, food int, fuel int, lifesupport int, health int) Moonbase {
@@ -28,8 +29,8 @@ func NewBase(name string, government string, sponsor string, money int, water in
 	return m
 }
 
-func NewAstronaut(name string, location string) Astronaut {
-	a := Astronaut{name, location}
+func NewAstronaut(name string, location string, AP int) Astronaut {
+	a := Astronaut{name, location, AP}
 	return a
 }
 

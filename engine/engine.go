@@ -10,6 +10,7 @@ var glrunning bool
 var turn, day, time int
 var period string
 var moonbase Moonbase
+var Output = make(chan string)
 
 var locations []Location
 var astronauts []Astronaut
@@ -17,6 +18,10 @@ var astronauts []Astronaut
 var gl = gameLoop.New(10, func(delta float64) {
 
 	processDateTime()
+
+	for _, a := range astronauts {
+		processAstronaut(a)
+	}
 
 })
 
@@ -36,8 +41,8 @@ func Start() {
 
 	// Create some astronauts
 
-	a1 := NewAstronaut("Kerbal", "Laboratory")
-	a2 := NewAstronaut("Leto", "Dormitory")
+	a1 := NewAstronaut("Kerbal", "Laboratory", 0)
+	a2 := NewAstronaut("Leto", "Dormitory", 10)
 
 	astronauts = []Astronaut{a1, a2}
 
@@ -45,22 +50,21 @@ func Start() {
 	glrunning = true
 }
 
-func Input(input string) string {
-
+func Input(input string) {
 	switch input {
 	case "time":
-		return getTime()
+		Output <- getTime()
 	case "spend":
 		moonbase.Money = moonbase.Money - 1000
-		return "Money spent"
+		Output <- "Money spent"
 	case "pause":
 		PauseUnPause()
-		return "Pause toggled"
+		Output <- "Pause toggled"
+	case "test":
+		Output <- "TESTING CHANNEL"
 	default:
-		return "Unknown input"
+		Output <- "Unknown input"
 	}
-
-	return input + " - nothing happened"
 }
 
 func GetSideBarInfo() string {
@@ -93,5 +97,13 @@ func processDateTime() {
 		period = "Afternoon"
 	} else {
 		period = "Night"
+	}
+}
+
+func processAstronaut(a Astronaut) {
+	a.AP++
+	if a.AP >= 100 {
+		Output <- "astronaut did something"
+		a.AP = 0
 	}
 }
