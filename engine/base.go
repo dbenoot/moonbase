@@ -28,6 +28,14 @@ func NewLocation(name string, description string, transition []string) Location 
 	return l
 }
 
+func GetLocations() string {
+	loclist := "LOCATIONS\n"
+	for _, l := range locations {
+		loclist = loclist + "\n" + l.Name
+	}
+	return loclist
+}
+
 // func (s Spaceship) Process(lm map[string]Location, numastro int) Spaceship {
 
 // 	// fuel expenditure based on engine efficiency

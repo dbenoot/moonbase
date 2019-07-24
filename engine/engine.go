@@ -8,7 +8,7 @@ import (
 
 var glrunning bool
 var day, time int
-var period string
+var period, names string
 var moonbase Moonbase
 var Output = make(chan string)
 
@@ -18,6 +18,7 @@ var astronauts []*Astronaut
 var gl = gameLoop.New(10, func(delta float64) {
 
 	processDateTime()
+
 	for _, a := range astronauts {
 		a.processAstronaut()
 	}

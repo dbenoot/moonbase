@@ -18,5 +18,12 @@ func (a *Astronaut) processAstronaut() {
 		Output <- "Astronaut " + a.Name + " did something"
 		a.ap = 0
 	}
+}
 
+func GetAstroNames() string {
+	astrolist := "ASTRONAUTS\n"
+	for _, a := range astronauts {
+		astrolist = astrolist + "\n" + a.Name
+	}
+	return astrolist
 }
