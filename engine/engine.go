@@ -10,21 +10,30 @@ var glrunning bool
 var day, time int
 var period, names string
 var moonbase Moonbase
+
+// Output exported to the interface
 var Output = make(chan string)
+
+// Quit signal exported to the interface
 var Quit = make(chan bool)
 
 var locations []Location
-var astronauts []*Astronaut
+var allAstronauts, npcAstronauts []*Astronaut
 
 var gl = gameLoop.New(10, func(delta float64) {
 
 	processDateTime()
 
-	for _, a := range astronauts {
+	for _, a := range allAstronauts {
 		a.processAstronaut()
+	}
+
+	for _, a := range npcAstronauts {
+		a.processNPC()
 	}
 })
 
+// Start function: instances the actors and starts the gameloop
 func Start() {
 	day = 1
 	time = 1
@@ -45,7 +54,8 @@ func Start() {
 	a1 := &Astronaut{"Kerbal", "Laboratory", 0, 100}
 	a2 := &Astronaut{"Leto", "Dormitory", 10, 10}
 
-	astronauts = []*Astronaut{a0, a1, a2}
+	allAstronauts = []*Astronaut{a0, a1, a2}
+	npcAstronauts = []*Astronaut{a1, a2}
 
 	gl.Start()
 	glrunning = true
@@ -55,6 +65,7 @@ func Start() {
 	Output <- "You and your friends have invested most of your assets in buying a small outpost to live in."
 }
 
+// Input takes the interface input and processes it. Output is processed by the output channel.
 func Input(input string) {
 	switch input {
 	case "time":
@@ -69,11 +80,14 @@ func Input(input string) {
 		Output <- "TESTING CHANNEL"
 	case "exit", "quit":
 		Quit <- true
+	case "look":
+		look()
 	default:
 		Output <- "Unknown input"
 	}
 }
 
+// GetSideBarInfo extracts the sidebar info
 func GetSideBarInfo() string {
 	return moonbase.Name + "\n" + moonbase.Government + "\n" + moonbase.Sponsor + "\n\n" + strconv.Itoa(moonbase.Money) + "\n" + strconv.Itoa(moonbase.Health) + "\n" + strconv.Itoa(moonbase.Lifesupport) + "\n\n" + strconv.Itoa(moonbase.Water) + "\n" + strconv.Itoa(moonbase.Food) + "\n" + strconv.Itoa(moonbase.Fuel) + "\n\nDay : " + strconv.Itoa(day) + "\nTime : " + period
 }
@@ -82,6 +96,7 @@ func getTime() string {
 	return strconv.Itoa(time)
 }
 
+//PauseUnPause pauses or unpauses the game
 func PauseUnPause() {
 	if glrunning == true {
 		gl.Stop()

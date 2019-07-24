@@ -12,6 +12,8 @@ var engineOutput string
 
 func main() {
 
+	// set up the interface
+
 	sbcontent := tui.NewLabel(en.GetSideBarInfo())
 
 	sidebar := tui.NewVBox(

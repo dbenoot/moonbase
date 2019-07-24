@@ -15,10 +15,6 @@ func NewAstronaut(name string, location string, ap int, hp int) Astronaut {
 func (a *Astronaut) processAstronaut() {
 
 	a.ap++
-	if a.ap >= 100 {
-		Output <- "Astronaut " + a.Name + " did something."
-		a.ap = 0
-	}
 
 	if a.hp <= 0 {
 		killAstro(a)
@@ -27,18 +23,25 @@ func (a *Astronaut) processAstronaut() {
 
 }
 
+func (a *Astronaut) processNPC() {
+	if a.ap >= 100 {
+		Output <- "Astronaut " + a.Name + " did something."
+		a.ap = 0
+	}
+}
+
 func killAstro(a *Astronaut) {
-	for i, aa := range astronauts {
+	for i, aa := range allAstronauts {
 		if aa.Name == a.Name {
-			astronauts[len(astronauts)-1], astronauts[i] = astronauts[i], astronauts[len(astronauts)-1]
-			astronauts = astronauts[:len(astronauts)-1]
+			allAstronauts[len(allAstronauts)-1], allAstronauts[i] = allAstronauts[i], allAstronauts[len(allAstronauts)-1]
+			allAstronauts = allAstronauts[:len(allAstronauts)-1]
 		}
 	}
 }
 
 func GetAstroNames() string {
 	astrolist := "ASTRONAUTS\n"
-	for _, a := range astronauts {
+	for _, a := range allAstronauts {
 		astrolist = astrolist + "\n" + a.Name
 	}
 	return astrolist
