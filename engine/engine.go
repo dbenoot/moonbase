@@ -10,7 +10,7 @@ var glrunning bool
 var day, time int
 var period, names string
 var moonbase Moonbase
-var Output = make(chan string)
+var Output = make(chan string, 3)
 var Quit = make(chan bool)
 
 var locations []Location
@@ -35,18 +35,24 @@ func Start() {
 
 	l1 := NewLocation("Laboratory", "This is the laboratory.", []string{"Dormitory", "Airlock"})
 	l2 := NewLocation("Dormitory", "This is the dormitory.", []string{"Laboratory"})
+	l3 := NewLocation("Airlock", "This is the airlock.", []string{"Laboratory"})
 
-	locations = []Location{l1, l2}
+	locations = []Location{l1, l2, l3}
 
 	// Create some astronauts
 
+	a0 := &Astronaut{"You", "Airlock", 0, 100}
 	a1 := &Astronaut{"Kerbal", "Laboratory", 0, 100}
 	a2 := &Astronaut{"Leto", "Dormitory", 10, 10}
 
-	astronauts = []*Astronaut{a1, a2}
+	astronauts = []*Astronaut{a0, a1, a2}
 
 	gl.Start()
 	glrunning = true
+
+	Output <- "You are in " + moonbase.Name + ", a " + moonbase.Sponsor + " " + moonbase.Government + "."
+	Output <- "After 2 years of research on the moon, you are physically unable to return to Earth."
+	Output <- "You and your friends have invested most of your assets in buying a small outpost to live in."
 }
 
 func Input(input string) {
