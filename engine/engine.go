@@ -11,6 +11,7 @@ var day, time int
 var period, names string
 var moonbase Moonbase
 var Output = make(chan string)
+var Quit = make(chan bool)
 
 var locations []Location
 var astronauts []*Astronaut
@@ -39,8 +40,8 @@ func Start() {
 
 	// Create some astronauts
 
-	a1 := &Astronaut{"Kerbal", "Laboratory", 0}
-	a2 := &Astronaut{"Leto", "Dormitory", 10}
+	a1 := &Astronaut{"Kerbal", "Laboratory", 0, 100}
+	a2 := &Astronaut{"Leto", "Dormitory", 10, 10}
 
 	astronauts = []*Astronaut{a1, a2}
 
@@ -60,6 +61,8 @@ func Input(input string) {
 		Output <- "Pause toggled"
 	case "test":
 		Output <- "TESTING CHANNEL"
+	case "exit", "quit":
+		Quit <- true
 	default:
 		Output <- "Unknown input"
 	}

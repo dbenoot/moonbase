@@ -61,8 +61,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// ui.SetKeybinding("Esc", func() { ui.Quit() })
-
 	go func() {
 		for range time.Tick(time.Second * 1) {
 			ui.Update(func() {
@@ -70,6 +68,11 @@ func main() {
 				locationcontent.SetText(en.GetLocations())
 				astrocontent.SetText(en.GetAstroNames())
 			})
+			quit, _ := <-en.Quit
+
+			if quit == true {
+				ui.Quit()
+			}
 		}
 	}()
 
