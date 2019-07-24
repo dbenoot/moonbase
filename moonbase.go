@@ -12,7 +12,7 @@ var engineOutput string
 
 func main() {
 
-	en.Start()
+	// en.Start()
 
 	sbcontent := tui.NewLabel(en.GetSideBarInfo())
 
@@ -100,6 +100,8 @@ func main() {
 
 		}
 	}()
+
+	en.Start()
 
 	if err := ui.Run(); err != nil {
 		log.Fatal(err)

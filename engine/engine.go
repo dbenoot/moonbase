@@ -50,9 +50,9 @@ func Start() {
 	gl.Start()
 	glrunning = true
 
-	// Output <- "You are in " + moonbase.Name + ", a " + moonbase.Sponsor + " " + moonbase.Government + "."
-	// Output <- "After 2 years of research on the moon, you are physically unable to return to Earth."
-	// Output <- "You and your friends have invested most of your assets in buying a small outpost to live in."
+	Output <- "You are in " + moonbase.Name + ", a " + moonbase.Sponsor + " " + moonbase.Government + "."
+	Output <- "After 2 years of research on the moon, you are physically unable to return to Earth."
+	Output <- "You and your friends have invested most of your assets in buying a small outpost to live in."
 }
 
 func Input(input string) {
