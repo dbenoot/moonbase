@@ -68,11 +68,7 @@ func main() {
 				locationcontent.SetText(en.GetLocations())
 				astrocontent.SetText(en.GetAstroNames())
 			})
-			quit, _ := <-en.Quit
 
-			if quit == true {
-				ui.Quit()
-			}
 		}
 	}()
 
@@ -83,6 +79,14 @@ func main() {
 		sbcontent.SetText(en.GetSideBarInfo())
 
 	})
+
+	go func() {
+		quit, _ := <-en.Quit
+
+		if quit == true {
+			ui.Quit()
+		}
+	}()
 
 	go func() {
 		for {
