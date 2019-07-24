@@ -12,8 +12,6 @@ var engineOutput string
 
 func main() {
 
-	// en.Start()
-
 	sbcontent := tui.NewLabel(en.GetSideBarInfo())
 
 	sidebar := tui.NewVBox(
@@ -61,6 +59,8 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Start a poller for interface updates. Polling starts from the interface now. Update to channel as in themain window?
+
 	go func() {
 		for range time.Tick(time.Second * 1) {
 			ui.Update(func() {
@@ -72,6 +72,9 @@ func main() {
 		}
 	}()
 
+	// Send commands to the engine update the sidebar.
+	// The sidebar is updated directly, should there be any changes in the bases' stats
+
 	go input.OnSubmit(func(e *tui.Entry) {
 
 		en.Input(e.Text())
@@ -80,6 +83,8 @@ func main() {
 
 	})
 
+	// Listener set up for the quit signal
+
 	go func() {
 		quit, _ := <-en.Quit
 
@@ -87,6 +92,8 @@ func main() {
 			ui.Quit()
 		}
 	}()
+
+	// Listener for the engine output
 
 	go func() {
 		for {
@@ -101,7 +108,11 @@ func main() {
 		}
 	}()
 
+	// Now that the interface is set up (especially the channel listeners), start the engine
+
 	en.Start()
+
+	// Check errors
 
 	if err := ui.Run(); err != nil {
 		log.Fatal(err)
