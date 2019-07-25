@@ -5,10 +5,11 @@ type Astronaut struct {
 	Location string
 	ap       int
 	hp       int
+	Coord    Coordinates
 }
 
-func NewAstronaut(name string, location string, ap int, hp int) Astronaut {
-	a := Astronaut{name, location, ap, hp}
+func NewAstronaut(name string, location string, ap int, hp int, coordinates Coordinates) Astronaut {
+	a := Astronaut{name, location, ap, hp, coordinates}
 	return a
 }
 
@@ -21,6 +22,18 @@ func (a *Astronaut) processAstronaut() {
 		Output <- "Astronaut" + a.Name + " has died."
 	}
 
+}
+
+func (a *Astronaut) move(x int, y int) {
+	if checkCoord(x, y) == true {
+		a.Location = lm[Coordinates{x, y}].Name
+		a.Coord = Coordinates{x, y}
+		Output <- "You moved to the " + a.Location + "."
+		// str := fmt.Sprintf("%#v", a)
+		// Output <- str
+	} else {
+		Output <- "You cannot move in that direction."
+	}
 }
 
 func (a *Astronaut) processNPC() {

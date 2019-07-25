@@ -15,7 +15,12 @@ type Moonbase struct {
 type Location struct {
 	Name        string
 	Description string
-	Transitions []string
+	Coord       Coordinates
+}
+
+type Coordinates struct {
+	x int
+	y int
 }
 
 func NewBase(name string, government string, sponsor string, money int, water int, food int, fuel int, lifesupport int, health int) Moonbase {
@@ -23,9 +28,17 @@ func NewBase(name string, government string, sponsor string, money int, water in
 	return m
 }
 
-func NewLocation(name string, description string, transition []string) Location {
-	l := Location{name, description, transition}
+func NewLocation(name string, description string, coordinates Coordinates) Location {
+	l := Location{name, description, coordinates}
 	return l
+}
+
+func createLocationMap() map[Coordinates]Location {
+	m := make(map[Coordinates]Location)
+	for _, v := range locations {
+		m[v.Coord] = v
+	}
+	return m
 }
 
 func GetLocations() string {

@@ -17,18 +17,20 @@ var Output = make(chan string)
 // Quit signal exported to the interface
 var Quit = make(chan bool)
 
+// Create the PC
+var player Astronaut
+
 var locations []Location
 var allAstronauts, npcAstronauts []*Astronaut
-
+var lm map[Coordinates]Location
 var gl = gameLoop.New(10, func(delta float64) {
 
 	processDateTime()
 
-	for _, a := range allAstronauts {
-		a.processAstronaut()
-	}
+	player.processAstronaut()
 
 	for _, a := range npcAstronauts {
+		a.processAstronaut()
 		a.processNPC()
 	}
 })
@@ -42,19 +44,21 @@ func Start() {
 
 	// Create some locations
 
-	l1 := NewLocation("Laboratory", "This is the laboratory.", []string{"Dormitory", "Airlock"})
-	l2 := NewLocation("Dormitory", "This is the dormitory.", []string{"Laboratory"})
-	l3 := NewLocation("Airlock", "This is the airlock.", []string{"Laboratory"})
+	l1 := NewLocation("Laboratory", "This is the laboratory.", Coordinates{0, 0})
+	l2 := NewLocation("Dormitory", "This is the dormitory.", Coordinates{1, 0})
+	l3 := NewLocation("Airlock", "This is the airlock.", Coordinates{0, 1})
 
 	locations = []Location{l1, l2, l3}
 
+	lm = createLocationMap()
+
 	// Create some astronauts
 
-	a0 := &Astronaut{"You", "Airlock", 0, 100}
-	a1 := &Astronaut{"Kerbal", "Laboratory", 0, 100}
-	a2 := &Astronaut{"Leto", "Dormitory", 10, 10}
+	player = Astronaut{"You", "Laboratory", 0, 100, Coordinates{0, 0}}
+	a1 := &Astronaut{"Kerbal", "Laboratory", 0, 100, Coordinates{0, 0}}
+	a2 := &Astronaut{"Leto", "Dormitory", 10, 10, Coordinates{1, 0}}
 
-	allAstronauts = []*Astronaut{a0, a1, a2}
+	// allAstronauts = []*Astronaut{player, a1, a2}
 	npcAstronauts = []*Astronaut{a1, a2}
 
 	gl.Start()
@@ -67,24 +71,7 @@ func Start() {
 
 // Input takes the interface input and processes it. Output is processed by the output channel.
 func Input(input string) {
-	switch input {
-	case "time":
-		Output <- getTime()
-	case "spend":
-		moonbase.Money = moonbase.Money - 1000
-		Output <- "Money spent"
-	case "pause":
-		PauseUnPause()
-		Output <- "Pause toggled"
-	case "test":
-		Output <- "TESTING CHANNEL"
-	case "exit", "quit":
-		Quit <- true
-	case "look":
-		look()
-	default:
-		Output <- "Unknown input"
-	}
+	parse(input)
 }
 
 // GetSideBarInfo extracts the sidebar info
