@@ -25,14 +25,16 @@ func (a *Astronaut) processAstronaut() {
 }
 
 func (a *Astronaut) move(x int, y int) {
-	if checkCoord(x, y) == true {
-		a.Location = lm[Coordinates{x, y}].Name
-		a.Coord = Coordinates{x, y}
-		Output <- "You moved to the " + a.Location + "."
-		// str := fmt.Sprintf("%#v", a)
-		// Output <- str
-	} else {
-		Output <- "You cannot move in that direction."
+	if a.checkAP(50) == true {
+		if checkCoord(x, y) == true {
+			a.Location = lm[Coordinates{x, y}].Name
+			a.Coord = Coordinates{x, y}
+			Output <- "You moved to the " + a.Location + "."
+			// str := fmt.Sprintf("%#v", a)
+			// Output <- str
+		} else {
+			Output <- "You cannot move in that direction."
+		}
 	}
 }
 
@@ -58,4 +60,12 @@ func GetAstroNames() string {
 		astrolist = astrolist + "\n" + a.Name
 	}
 	return astrolist
+}
+
+func (a *Astronaut) checkAP(i int) bool {
+	if a.ap >= i {
+		return true
+	}
+	Output <- "Not enough AP for this action."
+	return false
 }

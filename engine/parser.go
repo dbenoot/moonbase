@@ -4,6 +4,8 @@ func parse(input string) {
 	switch input {
 	case "time":
 		Output <- getTime()
+	case "sleep":
+		sleep()
 	case "spend":
 		moonbase.Money = moonbase.Money - 1000
 		Output <- "Money spent"

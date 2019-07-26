@@ -1,3 +1,13 @@
+/*
+actions:
+- talk
+- look
+- repair
+- move
+- take
+- sleep
+-
+*/
 package engine
 
 func look() {
@@ -5,6 +15,20 @@ func look() {
 	getRoutes(lm[player.Coord])
 	getAstroPresent(lm[player.Coord])
 }
+
+func sleep() {
+	time = time + 800
+
+	// Make sure your NPCs' time is not stolen from them while you sleep!
+	for i := 0; i < 800; i++ {
+		for _, a := range npcAstronauts {
+			a.processAstronaut()
+			a.processNPC()
+		}
+	}
+}
+
+// Functions supporting the actual actions
 
 func getRoutes(v Location) {
 	x := v.Coord.x
