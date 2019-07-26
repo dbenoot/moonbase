@@ -1,0 +1,125 @@
+{  
+   "Airlock":{  
+        "name":"Airlock",
+        "description":"",
+        "coord":{
+            "x":0,
+            "y":0
+        },
+        "subsystems":{  
+            "airlock":100
+        }
+   },
+   "Dome":{  
+        "name":"Dome",
+        "description":"You are in the vegetation dome. There is a small park here to relax in, fields for soil-grown food and small animals.",
+        "coord":{
+            "x":4,
+            "y":0
+        },
+        "subsystems":{  
+        "airlock":100
+        }
+   },
+   "Hydroponics":{  
+    "name":"Hydroponics",
+    "description":"You are in the hydroponics bay. This is where most of your food is grown.",
+    "coord":{
+        "x":5,
+        "y":1
+    },
+    "subsystems":{  
+    "airlock":100
+    }
+},
+   "Barracks":{  
+        "name":"Barracks",
+        "description":"You are in the barracks. Here the astronaut's sleeping berths are located.",
+        "coord":{  
+            "x":2,
+            "y":1
+        },
+        "subsystems":{  
+            "bed":100,
+            "bed":100,
+            "bed":100,
+            "light":100
+        }
+   },
+   "Hallway":{  
+      "name":"Hallway",
+      "description":"You are in the hallway leading to the Vegetation Dome.",
+      "coord":{  
+         "x":3, 
+         "y":0
+      },
+      "subsystems":{
+          "navigation":100,
+          "communication":100,
+          "window":100,
+          "status":100
+      }
+   },
+   "Engineering":{  
+      "name":"Engineering",
+      "description":"You are in engineering where you see the engine, fuel and life support. You can access the lander from here as well.",
+      "coord":{  
+         "x":2,
+         "y":-1
+      },
+      "subsystems":{  
+          "engine":100,
+          "water reclamation":100,
+          "oxygen":100,
+          "carbon dioxide filter":100,
+          "status":100
+      }
+   },
+   "Entrance":{  
+      "name":"Entrance",
+      "description":"You are in the entrance of the base, leading to the airlock.",
+      "coord":{  
+         "x":1,
+         "y":0
+      },
+      "subsystems":{
+          "engine":100,
+          "water reclamation":100,
+          "oxygen":100,
+          "carbon dioxide filter":100
+      }
+   },
+   "Hub":{  
+      "name":"Hub",
+      "description":"This is the Hub. It connects to the bridge, the barracks and engineering.",
+      "coord":{  
+         "x":2, 
+         "y":0
+      },
+      "subsystems":{  
+          "food storage":100,
+          "supplies":100
+      }
+   },
+   "Clinic":{  
+      "name":"Clinic",
+      "description":"This is the Clinic.",
+      "coord":{  
+         "x":2,
+         "y":2
+      },
+      "subsystems":{  
+          "autohealer":100
+      }
+   },
+   "Surface":{  
+      "name":"Surface",
+      "description":"You are moon surface outside of your base.",
+      "coord":{  
+         "x":-1,
+         "y":0
+      },
+      "subsystems":{
+      }
+   }
+}

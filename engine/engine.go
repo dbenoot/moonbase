@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"path/filepath"
 	"strconv"
 
 	gameLoop "github.com/kutase/go-gameloop"
@@ -20,7 +21,7 @@ var Quit = make(chan bool)
 // Create the PC
 var player Astronaut
 
-var locations []Location
+var locations map[string]Location
 var allAstronauts, npcAstronauts []*Astronaut
 var lm map[Coordinates]Location
 var gl = gameLoop.New(10, func(delta float64) {
@@ -44,19 +45,19 @@ func Start() {
 
 	// Create some locations
 
-	l1 := NewLocation("Laboratory", "This is the laboratory.", Coordinates{0, 0})
-	l2 := NewLocation("Dormitory", "This is the dormitory.", Coordinates{1, 0})
-	l3 := NewLocation("Airlock", "This is the airlock.", Coordinates{0, 1})
+	// l1 := NewLocation("Laboratory", "This is the laboratory.", Coordinates{0, 0})
+	// l2 := NewLocation("Dormitory", "This is the dormitory.", Coordinates{1, 0})
+	// l3 := NewLocation("Airlock", "This is the airlock.", Coordinates{0, 1})
 
-	locations = []Location{l1, l2, l3}
+	locations = loadLoc(filepath.Join("engine", "rooms.json"))
 
 	lm = createLocationMap()
 
 	// Create some astronauts
 
-	player = Astronaut{"You", "Laboratory", 0, 100, Coordinates{0, 0}}
-	a1 := &Astronaut{"Kerbal", "Laboratory", 0, 100, Coordinates{0, 0}}
-	a2 := &Astronaut{"Leto", "Dormitory", 10, 10, Coordinates{1, 0}}
+	player = Astronaut{"You", 0, 100, Coordinates{0, 0}}
+	a1 := &Astronaut{"Kerbal", 0, 100, Coordinates{4, 0}}
+	a2 := &Astronaut{"Leto", 10, 10, Coordinates{2, 0}}
 
 	// allAstronauts = []*Astronaut{player, a1, a2}
 	npcAstronauts = []*Astronaut{a1, a2}

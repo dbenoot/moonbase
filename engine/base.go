@@ -1,5 +1,10 @@
 package engine
 
+import (
+	"encoding/json"
+	"io/ioutil"
+)
+
 type Moonbase struct {
 	Name        string
 	Government  string
@@ -13,14 +18,15 @@ type Moonbase struct {
 }
 
 type Location struct {
-	Name        string
-	Description string
-	Coord       Coordinates
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
+	Coord       Coordinates    `json:"coord"`
+	Subsystems  map[string]int `json:"subsystem"`
 }
 
 type Coordinates struct {
-	x int
-	y int
+	X int
+	Y int
 }
 
 func NewBase(name string, government string, sponsor string, money int, water int, food int, fuel int, lifesupport int, health int) Moonbase {
@@ -28,8 +34,8 @@ func NewBase(name string, government string, sponsor string, money int, water in
 	return m
 }
 
-func NewLocation(name string, description string, coordinates Coordinates) Location {
-	l := Location{name, description, coordinates}
+func NewLocation(name string, description string, subsystems map[string]int, coordinates Coordinates) Location {
+	l := Location{name, description, coordinates, subsystems}
 	return l
 }
 
@@ -43,8 +49,21 @@ func createLocationMap() map[Coordinates]Location {
 
 func GetLocations() string {
 	loclist := "LOCATIONS\n"
-	for _, l := range locations {
-		loclist = loclist + "\n" + l.Name
-	}
+	// for i, l := range lm {
+
+	// 	loclist = loclist + "\n" + l.Name + " - " + strconv.Itoa(i.X) + "," + strconv.Itoa(i.Y) + "\n"
+	// }
 	return loclist
+}
+
+func loadLoc(f string) map[string]Location {
+	var locationMap map[string]Location
+
+	a, err := ioutil.ReadFile(f)
+	check(err)
+
+	err = json.Unmarshal(a, &locationMap)
+	check(err)
+
+	return locationMap
 }

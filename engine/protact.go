@@ -31,8 +31,8 @@ func sleep() {
 // Functions supporting the actual actions
 
 func getRoutes(v Location) {
-	x := v.Coord.x
-	y := v.Coord.y
+	x := v.Coord.X
+	y := v.Coord.Y
 
 	if checkCoord(x, y+1) == true {
 		Output <- "N: To the north is the " + lm[Coordinates{x, y + 1}].Name + "."

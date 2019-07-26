@@ -1,15 +1,14 @@
 package engine
 
 type Astronaut struct {
-	Name     string
-	Location string
-	ap       int
-	hp       int
-	Coord    Coordinates
+	Name  string
+	ap    int
+	hp    int
+	Coord Coordinates
 }
 
-func NewAstronaut(name string, location string, ap int, hp int, coordinates Coordinates) Astronaut {
-	a := Astronaut{name, location, ap, hp, coordinates}
+func NewAstronaut(name string, ap int, hp int, coordinates Coordinates) Astronaut {
+	a := Astronaut{name, ap, hp, coordinates}
 	return a
 }
 
@@ -27,9 +26,8 @@ func (a *Astronaut) processAstronaut() {
 func (a *Astronaut) move(x int, y int) {
 	if a.checkAP(50) == true {
 		if checkCoord(x, y) == true {
-			a.Location = lm[Coordinates{x, y}].Name
 			a.Coord = Coordinates{x, y}
-			Output <- "You moved to the " + a.Location + "."
+			Output <- "You moved to the " + lm[Coordinates{x, y}].Name + "."
 			// str := fmt.Sprintf("%#v", a)
 			// Output <- str
 		} else {
