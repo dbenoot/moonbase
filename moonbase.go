@@ -35,12 +35,13 @@ func main() {
 	astroBox.SetBorder(true)
 	astroBox.SetSizePolicy(tui.Minimum, tui.Minimum)
 
-	locationcontent := tui.NewLabel(en.GetLocations())
-	locationBox := tui.NewHBox(locationcontent)
-	locationBox.SetBorder(true)
-	locationBox.SetSizePolicy(tui.Minimum, tui.Minimum)
+	playercontent := tui.NewLabel(en.GetPlayerStats())
+	playerBox := tui.NewHBox(playercontent)
+	playerBox.SetTitle("Stats")
+	playerBox.SetBorder(true)
+	playerBox.SetSizePolicy(tui.Minimum, tui.Minimum)
 
-	infoBox := tui.NewVBox(astroBox, locationBox)
+	infoBox := tui.NewVBox(astroBox, playerBox)
 	infoBox.SetSizePolicy(tui.Minimum, tui.Expanding)
 
 	input := tui.NewEntry()
@@ -67,7 +68,7 @@ func main() {
 		for range time.Tick(time.Second * 1) {
 			ui.Update(func() {
 				sbcontent.SetText(en.GetSideBarInfo())
-				locationcontent.SetText(en.GetLocations())
+				playercontent.SetText(en.GetPlayerStats())
 				astrocontent.SetText(en.GetAstroNames())
 			})
 

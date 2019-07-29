@@ -47,15 +47,6 @@ func createLocationMap() map[Coordinates]Location {
 	return m
 }
 
-func GetLocations() string {
-	loclist := "LOCATIONS\n"
-	// for i, l := range lm {
-
-	// 	loclist = loclist + "\n" + l.Name + " - " + strconv.Itoa(i.X) + "," + strconv.Itoa(i.Y) + "\n"
-	// }
-	return loclist
-}
-
 func loadLoc(f string) map[string]Location {
 	var locationMap map[string]Location
 

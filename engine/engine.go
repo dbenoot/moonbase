@@ -84,19 +84,6 @@ func getTime() string {
 	return strconv.Itoa(time)
 }
 
-//PauseUnPause pauses or unpauses the game
-func PauseUnPause() {
-	if glrunning == true {
-		gl.Stop()
-		glrunning = false
-		Output <- "Game paused."
-	} else {
-		gl.Start()
-		glrunning = true
-		Output <- "Game unpaused."
-	}
-}
-
 func processDateTime() {
 	time++
 	if time == 3600 {

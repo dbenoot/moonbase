@@ -10,6 +10,8 @@ actions:
 */
 package engine
 
+import "strconv"
+
 func look() {
 	Output <- lm[player.Coord].Description
 	getRoutes(lm[player.Coord])
@@ -81,4 +83,8 @@ func checkCoord(x int, y int) bool {
 		return true
 	}
 	return false
+}
+
+func GetPlayerStats() string {
+	return "HP\t: " + strconv.Itoa(player.hp)
 }

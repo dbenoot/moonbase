@@ -1,7 +1,7 @@
 {  
    "Airlock":{  
         "name":"Airlock",
-        "description":"",
+        "description":"You are in the airlock.",
         "coord":{
             "x":0,
             "y":0
@@ -10,6 +10,17 @@
             "airlock":100
         }
    },
+   "Storage":{  
+    "name":"Storage",
+    "description":"You are in the storage room. Your stores are kept here.",
+    "coord":{
+        "x":5,
+        "y":-1
+    },
+    "subsystems":{  
+        "airlock":100
+    }
+},
    "Dome":{  
         "name":"Dome",
         "description":"You are in the vegetation dome. There is a small park here to relax in, fields for soil-grown food and small animals.",
