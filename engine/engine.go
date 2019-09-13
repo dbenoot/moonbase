@@ -8,7 +8,7 @@ import (
 )
 
 var glrunning bool
-var day, time int
+var day, t int
 var period, names string
 var moonbase Moonbase
 
@@ -39,7 +39,7 @@ var gl = gameLoop.New(10, func(delta float64) {
 // Start function: instances the actors and starts the gameloop
 func Start() {
 	day = 1
-	time = 1
+	t = 1
 
 	moonbase = NewBase("Moon Base Alpha", "Research Station", "Self Funded", 10000, 5000, 300, 500, 100, 100)
 
@@ -51,9 +51,9 @@ func Start() {
 
 	// Create some astronauts
 
-	player = Astronaut{"You", 0, 100, Coordinates{0, 0}, Memory{"working", 1, 100}, []Memory{}}
-	a1 := &Astronaut{"Kerbal", 0, 100, Coordinates{4, 0}, Memory{"working", 1, 100}, []Memory{}}
-	a2 := &Astronaut{"Leto", 10, 10, Coordinates{2, 0}, Memory{"working", 1, 100}, []Memory{}}
+	player = Astronaut{"You", 0, 100, Coordinates{0, 0}, Memory{"working", "I remember something about working.",1, 100}, []Memory{}, []Memory{}}
+	a1 := &Astronaut{"Kerbal", 0, 100, Coordinates{4, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{}}
+	a2 := &Astronaut{"Leto", 10, 10, Coordinates{2, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{}}
 
 	// allAstronauts = []*Astronaut{player, a1, a2}
 	npcAstronauts = []*Astronaut{a1, a2}
@@ -77,18 +77,18 @@ func GetSideBarInfo() string {
 }
 
 func getTime() string {
-	return strconv.Itoa(time)
+	return strconv.Itoa(t)
 }
 
 func processDateTime() {
-	time++
-	if time == 3600 {
+	t++
+	if t == 3600 {
 		day++
-		time = 1
+		t = 1
 	}
-	if time < 1200 {
+	if t < 1200 {
 		period = "Morning"
-	} else if time >= 1200 && time < 2400 {
+	} else if t >= 1200 && t < 2400 {
 		period = "Afternoon"
 	} else {
 		period = "Night"

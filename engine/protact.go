@@ -19,7 +19,7 @@ func look() {
 }
 
 func sleep() {
-	time = time + 800
+	t = t + 800
 
 	// Make sure your NPCs' time is not stolen from them while you sleep!
 	for i := 0; i < 800; i++ {
