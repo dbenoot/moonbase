@@ -45,19 +45,15 @@ func Start() {
 
 	// Create some locations
 
-	// l1 := NewLocation("Laboratory", "This is the laboratory.", Coordinates{0, 0})
-	// l2 := NewLocation("Dormitory", "This is the dormitory.", Coordinates{1, 0})
-	// l3 := NewLocation("Airlock", "This is the airlock.", Coordinates{0, 1})
-
 	locations = loadLoc(filepath.Join("engine", "rooms.json"))
 
 	lm = createLocationMap()
 
 	// Create some astronauts
 
-	player = Astronaut{"You", 0, 100, Coordinates{0, 0}}
-	a1 := &Astronaut{"Kerbal", 0, 100, Coordinates{4, 0}}
-	a2 := &Astronaut{"Leto", 10, 10, Coordinates{2, 0}}
+	player = Astronaut{"You", 0, 100, Coordinates{0, 0}, Memory{"working", 1, 100}, []Memory{}}
+	a1 := &Astronaut{"Kerbal", 0, 100, Coordinates{4, 0}, Memory{"working", 1, 100}, []Memory{}}
+	a2 := &Astronaut{"Leto", 10, 10, Coordinates{2, 0}, Memory{"working", 1, 100}, []Memory{}}
 
 	// allAstronauts = []*Astronaut{player, a1, a2}
 	npcAstronauts = []*Astronaut{a1, a2}

@@ -5,10 +5,18 @@ type Astronaut struct {
 	ap    int
 	hp    int
 	Coord Coordinates
+	Stm   Memory
+	Ltm   []Memory
 }
 
-func NewAstronaut(name string, ap int, hp int, coordinates Coordinates) Astronaut {
-	a := Astronaut{name, ap, hp, coordinates}
+type Memory struct {
+	memory     string
+	value      int // positive or negative memory
+	strongness int // How strong is the memory. Higher will create faster and stronger ltm
+}
+
+func NewAstronaut(name string, ap int, hp int, coordinates Coordinates, stm Memory, ltm []Memory) Astronaut {
+	a := Astronaut{name, ap, hp, coordinates, stm, ltm}
 	return a
 }
 
