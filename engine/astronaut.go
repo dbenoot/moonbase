@@ -19,7 +19,7 @@ type Memory struct {
 	memory      string
 	description string
 	quality     int // How positive or negative is the memory. Positive and negative values reflect the positiveness of the memory
-	timer       int
+	timer       int // Strong memories start with a high value. In Active memory this counts up per turn. In STM and LTM this counts down.
 }
 
 func NewAstronaut(name string, ap int, hp int, coordinates Coordinates, am Memory, stm []Memory, ltm []Memory) Astronaut {
@@ -50,6 +50,31 @@ func (a *Astronaut) remember() {
 func (a *Astronaut) processAstronaut() {
 
 	a.ap++
+
+	// Process the memory items of the astronauts
+	// First the active memory time is ++
+
+	a.Activemem.timer++
+
+	// Then the STM is being forgot at a rate of 2
+
+	for _, v := range a.Stm {
+		v.timer = v.timer-2
+	}
+
+	// Then the LTM is being forgot at a rate of 1
+
+	for _, v := range a.Ltm {
+		v.timer--
+	}
+
+	// every hour copy the STM to the LTM
+
+	if t%60 == 0 {
+		a.remember()
+	}
+
+	// Check if an astronaut died
 
 	if a.hp <= 0 {
 		killAstro(a)
