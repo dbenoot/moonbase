@@ -30,13 +30,39 @@ func sleep() {
 	}
 }
 
-func mindread() {
+func ltmread() {
 	for _, v := range npcAstronauts {
 		Output <- v.Name
 		for i, mem := range v.Ltm {
-			Output <- string(i) + " - " + mem.memory
+			Output <- strconv.Itoa(i) + " - " + mem.memory + " - quality : " + strconv.Itoa(mem.quality) + " - persistence : " + strconv.Itoa(mem.persistence)
 		}
 	}
+}
+
+func stmread() {
+	for _, v := range npcAstronauts {
+		Output <- v.Name
+		for i, mem := range v.Stm {
+			Output <- strconv.Itoa(i) + " - " + mem.memory + " - quality : " + strconv.Itoa(mem.quality) + " - persistence : " + strconv.Itoa(mem.persistence)
+		}
+	}
+}
+
+func amread() {
+	for _, v := range npcAstronauts {
+		Output <- v.Name
+		Output <- v.Activemem.memory + " - quality : " + strconv.Itoa(v.Activemem.quality) + " - persistence : " + strconv.Itoa(v.Activemem.persistence)
+	}
+}
+
+func checkap() {
+	for _, v := range npcAstronauts {
+		Output <- strconv.Itoa(v.ap)
+	}
+}
+
+func addmem() {
+
 }
 
 // Functions supporting the actual actions
