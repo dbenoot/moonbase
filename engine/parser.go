@@ -25,6 +25,8 @@ func parse(input string) {
 		checkap()
 	case "addmem":
 		addmem()
+	case "clearmem":
+		clearallactivemem()
 	case "N":
 		player.move(player.Coord.X, player.Coord.Y+1)
 	case "NE":

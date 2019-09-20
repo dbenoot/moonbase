@@ -27,6 +27,10 @@ func (a *Astronaut) processStm() {
 
 	for i := range a.Stm {
 		a.Stm[i].decreasepersistence(1)
+
+		if a.Stm[i].memory == a.Activemem.memory {
+			a.Stm[i].persistence = a.Stm[i].persistence + 3
+		}
 		/* if a.Ltm[i].persistence == 0 {
 			a.Ltm[len(a.Ltm)-1], a.Ltm[i] = a.Ltm[i], a.Ltm[len(a.Ltm)-1]
 			a.Ltm = a.Ltm[:len(a.Ltm)-1]

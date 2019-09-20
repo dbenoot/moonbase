@@ -51,8 +51,8 @@ func Start() {
 
 	// Create some astronauts
 
-	player = Astronaut{"You", 0, 100, Coordinates{0, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{Memory{"work", "I worked", -5, 1000}, Memory{"ate", "I ate", 5, 1000}}}
-	a1 := &Astronaut{"Kerbal", 0, 100, Coordinates{4, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{Memory{"work", "I worked", -5, 1000}, Memory{"ate", "I ate", 5, 1000}}}
+	player = Astronaut{"You", 0, 100, Coordinates{0, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{Memory{"work", "I worked", -5, 30000}, Memory{"ate", "I ate", 5, 15000}}}
+	a1 := &Astronaut{"Kerbal", 0, 100, Coordinates{4, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{Memory{"work", "I worked", -5, 10000}}, []Memory{Memory{"work", "I worked", -5, 30000}, Memory{"ate", "I ate", 5, 15000}}}
 	a2 := &Astronaut{"Leto", 10, 10, Coordinates{2, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{}}
 
 	// allAstronauts = []*Astronaut{player, a1, a2}

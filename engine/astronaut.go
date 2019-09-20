@@ -35,15 +35,15 @@ func (a *Astronaut) processAstronaut() {
 
 	a.processLtm()
 
-	// every half an hour copy the AM to the STM
+	// every 10 minutes copy the AM to the STM
 
-	if t%30 == 0 {
+	if t%600 == 0 {
 		a.activeToStm()
 	}
 
 	// every hour copy the STM to the LTM
 
-	if t%60 == 0 {
+	if t%3600 == 0 {
 		a.imprint()
 	}
 

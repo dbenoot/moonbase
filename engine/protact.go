@@ -64,7 +64,23 @@ func checkap() {
 func addmem() {
 	for _, v := range npcAstronauts {
 		v.addActiveMem("newmem", "this is a beautiful new mem", 10)
+		Output <- "Added active memory."
 	}
+}
+
+func clearallactivemem() {
+	for _, v := range npcAstronauts {
+		v.Activemem.Reset()
+	}
+}
+
+func (a *Astronaut) clearactivemem() {
+	a.Activemem.Reset()
+}
+
+var zeroMemory = &Memory{}
+func (m *Memory) Reset() {
+    *m = *zeroMemory
 }
 
 // Functions supporting the actual actions
