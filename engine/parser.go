@@ -15,6 +15,8 @@ func parse(input string) {
 		Quit <- true
 	case "look":
 		look()
+	case "mindread":
+		mindread()
 	case "N":
 		player.move(player.Coord.X, player.Coord.Y+1)
 	case "NE":

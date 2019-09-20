@@ -30,6 +30,15 @@ func sleep() {
 	}
 }
 
+func mindread() {
+	for _, v := range npcAstronauts {
+		Output <- v.Name
+		for i, mem := range v.Ltm {
+			Output <- string(i) + " - " + mem.memory
+		}
+	}
+}
+
 // Functions supporting the actual actions
 
 func getRoutes(v Location) {
