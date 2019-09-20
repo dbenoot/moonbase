@@ -27,10 +27,6 @@ func (a *Astronaut) processAstronaut() {
 	a.ap++
 
 	// Process the memory items of the astronauts
-	// First the active memory time is ++
-
-	a.Activemem.persistence++
-
 	// Then the STM is being forgot at a rate of 2
 
 	a.processStm()
@@ -38,6 +34,12 @@ func (a *Astronaut) processAstronaut() {
 	// Then the LTM is being forgot at a rate of 1
 
 	a.processLtm()
+
+	// every half an hour copy the AM to the STM
+
+	if t%30 == 0 {
+		a.activeToStm()
+	}
 
 	// every hour copy the STM to the LTM
 

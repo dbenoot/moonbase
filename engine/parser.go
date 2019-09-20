@@ -23,6 +23,8 @@ func parse(input string) {
 		amread()
 	case "ap":
 		checkap()
+	case "addmem":
+		addmem()
 	case "N":
 		player.move(player.Coord.X, player.Coord.Y+1)
 	case "NE":

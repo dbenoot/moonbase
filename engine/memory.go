@@ -25,20 +25,20 @@ func (a *Astronaut) processLtm() {
 
 func (a *Astronaut) processStm() {
 
-	for i := range a.Ltm {
-		a.Ltm[i].decreasepersistence(1)
-		if a.Ltm[i].persistence == 0 {
+	for i := range a.Stm {
+		a.Stm[i].decreasepersistence(1)
+		/* if a.Ltm[i].persistence == 0 {
 			a.Ltm[len(a.Ltm)-1], a.Ltm[i] = a.Ltm[i], a.Ltm[len(a.Ltm)-1]
 			a.Ltm = a.Ltm[:len(a.Ltm)-1]
-		}
+		} */
 	}
 
 }
 
 // Actions
 
-func (a *Astronaut) addActiveMem(mem string, desc string, q int, p int) {
-	a.Activemem = Memory{mem, desc, q, p}
+func (a *Astronaut) addActiveMem(mem string, desc string, q int) {
+	a.Activemem = Memory{mem, desc, q, 30}
 }
 
 func (a *Astronaut) reminisce() {
@@ -49,6 +49,26 @@ func (a *Astronaut) reminisce() {
 	memory := a.Ltm[rand.Intn(len(a.Ltm))]
 
 	a.Activemem = memory
+}
+
+func (a *Astronaut) activeToStm() {
+	var knownmem bool = false
+	for i := range a.Stm {
+		if a.Activemem.memory == a.Stm[i].memory {
+			knownmem = true
+		}
+	}
+
+	if knownmem == true {
+		for i := range a.Stm {
+			if a.Activemem.memory == a.Stm[i].memory {
+				a.Stm[i].persistence = a.Stm[i].persistence + 3
+			}
+		}
+	} else {
+		a.Stm = append(a.Stm, a.Activemem)
+	}
+
 }
 
 func (a *Astronaut) imprint() {
