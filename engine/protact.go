@@ -28,6 +28,8 @@ func sleep() {
 	}
 }
 
+// Temporary debug actions below
+
 func ltmread() {
 	for _, v := range npcAstronauts {
 		Output <- v.Name
