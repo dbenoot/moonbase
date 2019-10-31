@@ -150,3 +150,8 @@ func checkCoord(x int, y int) bool {
 func GetPlayerStats() string {
 	return "HP\t: " + strconv.Itoa(player.hp)
 }
+
+
+func GetProtLoc() Coordinates {
+	return player.Coord 
+}

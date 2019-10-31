@@ -131,15 +131,16 @@ func main() {
 
 func drawMap () string {
 	lm := en.GetMap()
+	pl := en.GetProtLoc()
 
 	var output string
-
-	
 
 	for y := -7; y < 7; y++ {
 		for x := -7; x < 7; x++ {
 			_, ok := lm[en.Coordinates{x, y}]
-			if ok {
+			if ok && pl.X == x && pl.Y == y {
+				output = output + "@"
+			} else if ok {
 				output = output + "X"
 			} else {
 				output = output + " "
