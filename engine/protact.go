@@ -13,9 +13,7 @@ package engine
 import "strconv"
 
 func look() {
-	Output <- lm[player.Coord].Description
-	getRoutes(lm[player.Coord])
-	getAstroPresent(lm[player.Coord])
+	Output <- lm[player.Coord].Description + getRoutes(lm[player.Coord]) + getAstroPresent(lm[player.Coord])	
 }
 
 func sleep() {
@@ -85,50 +83,59 @@ func (m *Memory) Reset() {
 
 // Functions supporting the actual actions
 
-func getRoutes(v Location) {
+func getRoutes(v Location) string {
 	x := v.Coord.X
 	y := v.Coord.Y
 
+	var output string
+
 	if checkCoord(x, y+1) == true {
-		Output <- "N: To the north is the " + lm[Coordinates{x, y + 1}].Name + "."
+		output = output + "\nN: To the north is the " + lm[Coordinates{x, y + 1}].Name + "."
 	}
 
 	if checkCoord(x+1, y+1) == true {
-		Output <- "NE: To the northeast is the " + lm[Coordinates{x + 1, y + 1}].Name + "."
+		output = output + "\nNE: To the northeast is the " + lm[Coordinates{x + 1, y + 1}].Name + "."
 	}
 
 	if checkCoord(x+1, y) == true {
-		Output <- "E: To the east is the " + lm[Coordinates{x + 1, y}].Name + "."
+		output = output + "\nE: To the east is the " + lm[Coordinates{x + 1, y}].Name + "."
 	}
 
 	if checkCoord(x+1, y-1) == true {
-		Output <- "SE: To the southeast is the " + lm[Coordinates{x + 1, y - 1}].Name + "."
+		output = output + "\nSE: To the southeast is the " + lm[Coordinates{x + 1, y - 1}].Name + "."
 	}
 
 	if checkCoord(x, y-1) == true {
-		Output <- "S: To the south is the " + lm[Coordinates{x, y - 1}].Name + "."
+		output = output + "\nS: To the south is the " + lm[Coordinates{x, y - 1}].Name + "."
 	}
 
 	if checkCoord(x-1, y-1) == true {
-		Output <- "SW: To the southwest is the " + lm[Coordinates{x - 1, y - 1}].Name + "."
+		output = output + "\nSW: To the southwest is the " + lm[Coordinates{x - 1, y - 1}].Name + "."
 	}
 
 	if checkCoord(x-1, y) == true {
-		Output <- "W: To the west is the " + lm[Coordinates{x - 1, y}].Name + "."
+		output = output + "\nW: To the west is the " + lm[Coordinates{x - 1, y}].Name + "."
 	}
 
 	if checkCoord(x-1, y+1) == true {
-		Output <- "NW: To the northwest is the " + lm[Coordinates{x - 1, y + 1}].Name + "."
+		output = output + "\nNW: To the northwest is the " + lm[Coordinates{x - 1, y + 1}].Name + "."
 	}
+
+	return output
 
 }
 
-func getAstroPresent(loc Location) {
+func getAstroPresent(loc Location) string {
+	
+	var output string
+	
 	for _, v := range npcAstronauts {
 		if v.Coord == loc.Coord {
-			Output <- v.Name + " is here."
+			output = output + "\n" + v.Name + " is here."
 		}
 	}
+
+	return output
 }
 
 func checkCoord(x int, y int) bool {
