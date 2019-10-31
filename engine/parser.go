@@ -2,6 +2,8 @@ package engine
 
 func parse(input string) {
 	switch input {
+	case "start":
+		Start()
 	case "time":
 		Output <- getTime()
 	case "sleep":

@@ -6,6 +6,7 @@ import (
 
 	en "github.com/dbenoot/moonbase/engine"
 	"github.com/marcusolsson/tui-go"
+	"github.com/marcusolsson/tui-go/wordwrap"
 )
 
 var engineOutput string
@@ -62,6 +63,8 @@ func main() {
 		log.Fatal(err)
 	}
 
+	
+
 	// Start a poller for interface updates. Polling starts from the interface now. Update to channel as in themain window?
 
 	go func() {
@@ -104,17 +107,21 @@ func main() {
 
 			main.Append(tui.NewHBox(
 				tui.NewPadder(1, 0, tui.NewLabel(">")),
-				tui.NewLabel(mainOutput),
+				tui.NewLabel(wordwrap.WrapString(mainOutput, mainBox.Size().X-10)),
 				tui.NewSpacer(),
 			))
 
 		}
 	}()
 
-	// Now that the interface is set up (especially the channel listeners), start the engine
+	// Now that the interface is set up (especially the channel listeners), ask the user to start the engine
 
-	en.Start()
-
+	main.Append(tui.NewHBox(
+		tui.NewPadder(1, 0, tui.NewLabel(">")),
+		tui.NewLabel("Type 'start' to start the game."),
+		tui.NewSpacer(),
+	))
+	
 	// Check errors
 
 	if err := ui.Run(); err != nil {

@@ -58,8 +58,13 @@ func Start() {
 	// allAstronauts = []*Astronaut{player, a1, a2}
 	npcAstronauts = []*Astronaut{a1, a2}
 
+	welcomeMessage()
+
 	gl.Start()
 	glrunning = true
+}
+
+func welcomeMessage() {
 
 	Output <- "You are in " + moonbase.Name + ", a " + moonbase.Sponsor + " " + moonbase.Government + "."
 	Output <- "After 2 years of research on the moon, you are physically unable to return to Earth."
@@ -67,6 +72,7 @@ func Start() {
 }
 
 // Input takes the interface input and processes it. Output is processed by the output channel.
+
 func Input(input string) {
 	parse(input)
 }
