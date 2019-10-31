@@ -72,7 +72,7 @@ func main() {
 			ui.Update(func() {
 				sbcontent.SetText(en.GetSideBarInfo())
 				playercontent.SetText(en.GetPlayerStats())
-				astrocontent.SetText(en.GetAstroNames())
+				astrocontent.SetText(drawMap())
 			})
 
 		}
@@ -127,4 +127,26 @@ func main() {
 	if err := ui.Run(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func drawMap () string {
+	lm := en.GetMap()
+
+	var output string
+
+	
+
+	for y := -7; y < 7; y++ {
+		for x := -7; x < 7; x++ {
+			_, ok := lm[en.Coordinates{x, y}]
+			if ok {
+				output = output + "X"
+			} else {
+				output = output + " "
+			}
+		}
+		output = output + "\n"
+	}
+
+	return output
 }

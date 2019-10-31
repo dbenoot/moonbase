@@ -58,3 +58,7 @@ func loadLoc(f string) map[string]Location {
 
 	return locationMap
 }
+
+func GetMap() map[Coordinates]Location {
+	return lm
+}
