@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"time"
+	"sort"
 
 	en "github.com/dbenoot/moonbase/engine"
 	"github.com/marcusolsson/tui-go"
@@ -31,10 +32,11 @@ func main() {
 	mainBox := tui.NewVBox(mainScroll)
 	mainBox.SetBorder(true)
 
-	astrocontent := tui.NewLabel(en.GetAstroNames())
-	astroBox := tui.NewHBox(astrocontent)
-	astroBox.SetBorder(true)
-	astroBox.SetSizePolicy(tui.Minimum, tui.Minimum)
+	mapcontent := tui.NewLabel("")
+	mapBox := tui.NewHBox(mapcontent)
+	mapBox.SetBorder(true)
+	mapBox.SetSizePolicy(tui.Expanding, tui.Minimum)
+	mapBox.SetTitle("Map")
 
 	playercontent := tui.NewLabel(en.GetPlayerStats())
 	playerBox := tui.NewHBox(playercontent)
@@ -42,7 +44,7 @@ func main() {
 	playerBox.SetBorder(true)
 	playerBox.SetSizePolicy(tui.Minimum, tui.Minimum)
 
-	infoBox := tui.NewVBox(astroBox, playerBox)
+	infoBox := tui.NewVBox(mapBox, playerBox)
 	infoBox.SetSizePolicy(tui.Minimum, tui.Expanding)
 
 	input := tui.NewEntry()
@@ -61,9 +63,7 @@ func main() {
 	ui, err := tui.New(root)
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	
+	}	
 
 	// Start a poller for interface updates. Polling starts from the interface now. Update to channel as in themain window?
 
@@ -71,8 +71,7 @@ func main() {
 		for range time.Tick(time.Second * 1) {
 			ui.Update(func() {
 				sbcontent.SetText(en.GetSideBarInfo())
-				playercontent.SetText(en.GetPlayerStats())
-				astrocontent.SetText(drawMap())
+				playercontent.SetText(en.GetPlayerStats())	 // moved here as the map doesn't exist at start and then minMaxIntSlice crashes, update update to channel from engine!			
 			})
 
 		}
@@ -86,6 +85,7 @@ func main() {
 		en.Input(e.Text())
 		input.SetText("")
 		sbcontent.SetText(en.GetSideBarInfo())
+		mapcontent.SetText(drawMap())
 
 	})
 
@@ -129,14 +129,24 @@ func main() {
 	}
 }
 
-func drawMap () string {
+func drawMap() string {
 	lm := en.GetMap()
 	pl := en.GetProtLoc()
 
+	var xxx []int
+	var yyy []int
+
 	var output string
 
-	for y := -7; y < 7; y++ {
-		for x := -7; x < 7; x++ {
+	for k, _ := range lm {
+		xxx = append(xxx, k.X)
+		yyy = append(yyy, k.Y)
+	}
+	minx, maxx := minMaxIntSlice(xxx)
+	miny, maxy := minMaxIntSlice(yyy)
+
+	for y := maxy+1; y > miny-1; y-- {
+		for x := minx-1; x < maxx+1; x++ {
 			_, ok := lm[en.Coordinates{x, y}]
 			if ok && pl.X == x && pl.Y == y {
 				output = output + "@"
@@ -150,4 +160,9 @@ func drawMap () string {
 	}
 
 	return output
+}
+
+func minMaxIntSlice (v []int) (int, int) {
+	sort.Ints(v)
+	return v[0], v[len(v)-1]
 }

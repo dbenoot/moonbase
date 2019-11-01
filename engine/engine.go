@@ -24,6 +24,9 @@ var player Astronaut
 var locations map[string]Location
 var allAstronauts, npcAstronauts []*Astronaut
 var lm map[Coordinates]Location
+
+// UPDATE THE GAMELOOP HERE!!
+
 var gl = gameLoop.New(10, func(delta float64) {
 
 	processDateTime()
