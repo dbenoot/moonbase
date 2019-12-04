@@ -12,8 +12,14 @@ package engine
 
 import "strconv"
 
-func look() {
-	Output <- lm[player.Coord].Description + getRoutes(lm[player.Coord]) + getAstroPresent(lm[player.Coord])	
+func look(sub string) {
+	if len(sub) == 0 {
+		Output <- lm[player.Coord].Description + getRoutes(lm[player.Coord]) + getAstroPresent(lm[player.Coord])
+	} else if _, ok := lm[player.Coord].Subsystems[sub]; ok {
+		Output <- "The status of the " + sub + " is: " + string(lm[player.Coord].Subsystems[sub]) + "%."
+	} else {
+		Output <- "There is no " + sub + " in the " + lm[player.Coord].Name + "."
+	}
 }
 
 func sleep() {
@@ -79,8 +85,9 @@ func (a *Astronaut) clearactivemem() {
 }
 
 var zeroMemory = &Memory{}
+
 func (m *Memory) Reset() {
-    *m = *zeroMemory
+	*m = *zeroMemory
 }
 
 // Functions supporting the actual actions
@@ -128,9 +135,9 @@ func getRoutes(v Location) string {
 }
 
 func getAstroPresent(loc Location) string {
-	
+
 	var output string
-	
+
 	for _, v := range npcAstronauts {
 		if v.Coord == loc.Coord {
 			output = output + "\n" + v.Name + " is here."
@@ -151,7 +158,6 @@ func GetPlayerStats() string {
 	return "HP\t: " + strconv.Itoa(player.hp)
 }
 
-
 func GetProtLoc() Coordinates {
-	return player.Coord 
+	return player.Coord
 }

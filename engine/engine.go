@@ -10,6 +10,7 @@ import (
 var glrunning bool
 var day, t int
 var period, names string
+var knownVerbs, knownSubjects []string
 var moonbase Moonbase
 
 // Output exported to the interface
@@ -61,6 +62,12 @@ func Start() {
 	// allAstronauts = []*Astronaut{player, a1, a2}
 	npcAstronauts = []*Astronaut{a1, a2}
 
+	// add astronauts names to the knownSubjects
+	for _, v := range npcAstronauts {
+		knownSubjects = append(knownSubjects, v.Name)
+	}
+
+	// Launch the welcome message
 	welcomeMessage()
 
 	gl.Start()
@@ -75,7 +82,6 @@ func welcomeMessage() {
 }
 
 // Input takes the interface input and processes it. Output is processed by the output channel.
-
 func Input(input string) {
 	preparse(input)
 }

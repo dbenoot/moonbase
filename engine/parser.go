@@ -20,7 +20,9 @@ func parse(verb string, subject string) {
 	case "exit", "quit":
 		Quit <- true
 	case "look":
-		look()
+		look(subject)
+	case "subs":
+		Output <- stringify(knownSubjects)
 	case "ltm":
 		ltmread()
 	case "stm":
@@ -56,21 +58,35 @@ func parse(verb string, subject string) {
 
 func preparse(in string) {
 
-	var knownVerbs = []string{
+	verblist := []string{
 		"look",
+		"subs",
 		"time",
 		"quit",
 		"exit",
 		"start",
-	}
-
-	var knownSubjects = []string{
-		"wall",
-		"Kerbal",
-		"Leto",
+		"sleep",
+		"spend",
+		"test",
+		"ltm",
+		"stm",
+		"am",
+		"ap",
+		"addmem",
+		"clearmem",
+		"N",
+		"NE",
+		"E",
+		"SE",
+		"S",
+		"SW",
+		"W",
+		"NW",
 	}
 
 	var verb, subject string
+
+	knownVerbs = append(knownVerbs, verblist...)
 
 	Output <- in
 
@@ -81,6 +97,8 @@ func preparse(in string) {
 		}
 		if find(knownSubjects, v) == true {
 			subject = v
+		} else {
+			subject = ""
 		}
 	}
 
@@ -96,4 +114,14 @@ func find(slice []string, val string) bool {
 		}
 	}
 	return false
+}
+
+func stringify(str []string) string {
+	var out string
+
+	for _, v := range str {
+		out = out + " - " + v
+	}
+
+	return out
 }

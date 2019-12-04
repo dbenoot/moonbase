@@ -56,6 +56,14 @@ func loadLoc(f string) map[string]Location {
 	err = json.Unmarshal(a, &locationMap)
 	check(err)
 
+	for k, v := range locationMap {
+		knownSubjects = append(knownSubjects, k)
+		for w := range v.Subsystems {
+			Output <- w
+			knownSubjects = append(knownSubjects, w)
+		}
+	}
+
 	return locationMap
 }
 
