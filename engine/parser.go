@@ -1,7 +1,11 @@
 package engine
 
-func parse(input string) {
-	switch input {
+import (
+	"strings"
+)
+
+func parse(verb string, subject string) {
+	switch verb {
 	case "start":
 		Start()
 	case "time":
@@ -52,4 +56,44 @@ func parse(input string) {
 
 func preparse(in string) {
 
+	var knownVerbs = []string{
+		"look",
+		"time",
+		"quit",
+		"exit",
+		"start",
+	}
+
+	var knownSubjects = []string{
+		"wall",
+		"Kerbal",
+		"Leto",
+	}
+
+	var verb, subject string
+
+	Output <- in
+
+	out := strings.Fields(in)
+	for _, v := range out {
+		if find(knownVerbs, v) == true {
+			verb = v
+		}
+		if find(knownSubjects, v) == true {
+			subject = v
+		}
+	}
+
+	Output <- verb + " : " + subject
+
+	parse(verb, subject)
+}
+
+func find(slice []string, val string) bool {
+	for _, item := range slice {
+		if item == val {
+			return true
+		}
+	}
+	return false
 }

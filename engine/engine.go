@@ -77,7 +77,7 @@ func welcomeMessage() {
 // Input takes the interface input and processes it. Output is processed by the output channel.
 
 func Input(input string) {
-	parse(input)
+	preparse(input)
 }
 
 // GetSideBarInfo extracts the sidebar info
