@@ -27,25 +27,8 @@ func (a *Astronaut) processAstronaut() {
 	a.ap++
 
 	// Process the memory items of the astronauts
-	// Then the STM is being forgot at a rate of 2
 
-	a.processStm()
-
-	// Then the LTM is being forgot at a rate of 1
-
-	a.processLtm()
-
-	// every 10 minutes copy the AM to the STM
-
-	if t%600 == 0 {
-		a.activeToStm()
-	}
-
-	// every hour copy the STM to the LTM
-
-	if t%3600 == 0 {
-		a.imprint()
-	}
+	a.processMemory()
 
 	// Check if an astronaut died
 
@@ -85,6 +68,7 @@ func killAstro(a *Astronaut) {
 	}
 }
 
+// GetAstroNames creates a list of all of the astronatus.
 func GetAstroNames() string {
 	astrolist := "ASTRONAUTS\n"
 	for _, a := range allAstronauts {
@@ -99,4 +83,26 @@ func (a *Astronaut) checkAP(i int) bool {
 	}
 	Output <- "Not enough AP for this action."
 	return false
+}
+
+func (a *Astronaut) processMemory() {
+	// Then the STM is being forgot at a rate of 2
+
+	a.processStm()
+
+	// Then the LTM is being forgot at a rate of 1
+
+	a.processLtm()
+
+	// every 10 minutes copy the AM to the STM
+
+	if t%600 == 0 {
+		a.activeToStm()
+	}
+
+	// every hour copy the STM to the LTM
+
+	if t%3600 == 0 {
+		a.imprint()
+	}
 }
