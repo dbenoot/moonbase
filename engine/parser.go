@@ -36,21 +36,21 @@ func parse(verb string, subject string) {
 	case "clearmem":
 		clearallactivemem()
 	case "N":
-		player.move(player.Coord.X, player.Coord.Y+1)
+		player.move(Coordinates{player.Coord.X, player.Coord.Y + 1})
 	case "NE":
-		player.move(player.Coord.X+1, player.Coord.Y+1)
+		player.move(Coordinates{player.Coord.X + 1, player.Coord.Y + 1})
 	case "E":
-		player.move(player.Coord.X+1, player.Coord.Y)
+		player.move(Coordinates{player.Coord.X + 1, player.Coord.Y})
 	case "SE":
-		player.move(player.Coord.X+1, player.Coord.Y-1)
+		player.move(Coordinates{player.Coord.X + 1, player.Coord.Y - 1})
 	case "S":
-		player.move(player.Coord.X, player.Coord.Y-1)
+		player.move(Coordinates{player.Coord.X, player.Coord.Y - 1})
 	case "SW":
-		player.move(player.Coord.X-1, player.Coord.Y-1)
+		player.move(Coordinates{player.Coord.X - 1, player.Coord.Y - 1})
 	case "W":
-		player.move(player.Coord.X-1, player.Coord.Y)
+		player.move(Coordinates{player.Coord.X - 1, player.Coord.Y})
 	case "NW":
-		player.move(player.Coord.X-1, player.Coord.Y+1)
+		player.move(Coordinates{player.Coord.X - 1, player.Coord.Y + 1})
 	default:
 		Output <- "Unknown input"
 	}

@@ -1,5 +1,10 @@
 package engine
 
+import (
+	"math/rand"
+	"time"
+)
+
 type Astronaut struct {
 	Name      string
 	ap        int
@@ -39,22 +44,22 @@ func (a *Astronaut) processAstronaut() {
 
 }
 
-func (a *Astronaut) move(x int, y int) {
+func (a *Astronaut) move(c Coordinates) {
 	if a.checkAP(50) == true {
-		if checkCoord(x, y) == true {
-			a.Coord = Coordinates{x, y}
-			Output <- "You moved to the " + lm[Coordinates{x, y}].Name + "."
+		if checkCoord(c.X, c.Y) == true {
+			a.Coord = c
+			Output <- a.Name + " moved to the " + lm[c].Name + "."
 			// str := fmt.Sprintf("%#v", a)
 			// Output <- str
 		} else {
-			Output <- "You cannot move in that direction."
+			Output <- a.Name + " cannot move in that direction."
 		}
 	}
 }
 
 func (a *Astronaut) processNPC() {
 	if a.ap >= 100 {
-		Output <- "Astronaut " + a.Name + " did something."
+		a.decideAction()
 		a.ap = 0
 	}
 }
@@ -85,24 +90,63 @@ func (a *Astronaut) checkAP(i int) bool {
 	return false
 }
 
-func (a *Astronaut) processMemory() {
-	// Then the STM is being forgot at a rate of 2
+func (a *Astronaut) decideAction() {
+	// test actions: move, think, work, sleep
 
-	a.processStm()
+	switch d := 1; d {
+	case 1:
+		a.moveNPC()
+	}
+}
 
-	// Then the LTM is being forgot at a rate of 1
+func (a *Astronaut) moveNPC() {
 
-	a.processLtm()
+	r := a.getNPCRoutes()
 
-	// every 10 minutes copy the AM to the STM
+	// for now have these NPCs wander arounf randomly
+	rand.Seed(time.Now().Unix())
+	a.move(r[rand.Intn(len(r))])
 
-	if t%600 == 0 {
-		a.activeToStm()
+}
+
+func (a *Astronaut) getNPCRoutes() []Coordinates {
+	x := a.Coord.X
+	y := a.Coord.Y
+
+	var output []Coordinates
+
+	if checkCoord(x, y+1) == true {
+		output = append(output, Coordinates{x, y + 1})
 	}
 
-	// every hour copy the STM to the LTM
-
-	if t%3600 == 0 {
-		a.imprint()
+	if checkCoord(x+1, y+1) == true {
+		output = append(output, Coordinates{x + 1, y + 1})
 	}
+
+	if checkCoord(x+1, y) == true {
+		output = append(output, Coordinates{x + 1, y})
+	}
+
+	if checkCoord(x+1, y-1) == true {
+		output = append(output, Coordinates{x + 1, y - 1})
+	}
+
+	if checkCoord(x, y-1) == true {
+		output = append(output, Coordinates{x, y - 1})
+	}
+
+	if checkCoord(x-1, y-1) == true {
+		output = append(output, Coordinates{x - 1, y - 1})
+	}
+
+	if checkCoord(x-1, y) == true {
+		output = append(output, Coordinates{x - 1, y})
+	}
+
+	if checkCoord(x-1, y+1) == true {
+		output = append(output, Coordinates{x - 1, y + 1})
+	}
+
+	return output
+
 }

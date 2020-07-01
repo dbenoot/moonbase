@@ -5,6 +5,30 @@ import (
 	"time"
 )
 
+// Astronaut process memory function
+
+func (a *Astronaut) processMemory() {
+	// Then the STM is being forgot at a rate of 2
+
+	a.processStm()
+
+	// Then the LTM is being forgot at a rate of 1
+
+	a.processLtm()
+
+	// every 10 minutes copy the AM to the STM
+
+	if t%600 == 0 {
+		a.activeToStm()
+	}
+
+	// every hour copy the STM to the LTM
+
+	if t%3600 == 0 {
+		a.imprint()
+	}
+}
+
 // Basic
 
 func (m *Memory) decreasepersistence(a int) {
