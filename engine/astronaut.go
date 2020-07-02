@@ -96,8 +96,12 @@ func (a *Astronaut) decideAction() {
 	switch d := 1; d {
 	case 1:
 		a.moveNPC()
+	case 2:
+		a.gotoSleep()
 	}
 }
+
+func (a *Astronaut) gotoSleep() {}
 
 func (a *Astronaut) moveNPC() {
 
