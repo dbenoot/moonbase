@@ -10,8 +10,6 @@ func (a *Astronaut) move(c Coordinates) {
 		if checkCoord(c.X, c.Y) == true {
 			a.Coord = c
 			Output <- a.Name + " moved to the " + lm[c].Name + "."
-			// str := fmt.Sprintf("%#v", a)
-			// Output <- str
 		} else {
 			Output <- a.Name + " cannot move in that direction."
 		}
@@ -29,11 +27,12 @@ func killAstro(a *Astronaut) {
 
 func (a *Astronaut) decideAction() {
 	// test actions: move, think, work, sleep
+	rand.Seed(time.Now().Unix())
 
-	switch d := 1; d {
-	case 1:
+	switch rand.Intn(2) {
+	case 0:
 		a.queue = append(a.queue, Action{"move", ""})
-	case 2:
+	case 1:
 		a.gotoSleep()
 	}
 }
@@ -41,20 +40,27 @@ func (a *Astronaut) decideAction() {
 func (a *Astronaut) doAction(act Action) {
 	switch act.action {
 	case "move":
-		a.moveNPC()
+		r := a.getNPCRoutes()
+		// for now have these NPCs wander around randomly
+		rand.Seed(time.Now().Unix())
+		a.move(r[rand.Intn(len(r))])
+	case "sleep":
+		a.sleep()
 	}
 }
 
-func (a *Astronaut) gotoSleep() {}
+func (a *Astronaut) gotoSleep() {
+	a.move(Coordinates{2, 1})
+	for i := 1; i <= 8; i++ {
+		a.queue = append(a.queue, Action{"sleep", ""})
+	}
+	Output <- a.Name + " is tired and going to sleep."
+}
 
-func (a *Astronaut) moveNPC() {
-
-	r := a.getNPCRoutes()
-
-	// for now have these NPCs wander arounf randomly
-	rand.Seed(time.Now().Unix())
-	a.move(r[rand.Intn(len(r))])
-
+func (a *Astronaut) sleep() {
+	if a.hp < 100 {
+		a.hp = a.hp + 1
+	}
 }
 
 func (a *Astronaut) getNPCRoutes() []Coordinates {
