@@ -88,7 +88,7 @@ func preparse(in string) {
 
 	knownVerbs = append(knownVerbs, verblist...)
 
-	Output <- in
+	// Output <- in
 
 	out := strings.Fields(in)
 	for _, v := range out {
