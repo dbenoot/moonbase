@@ -140,7 +140,7 @@ func getAstroPresent(loc Location) string {
 
 	for _, v := range npcAstronauts {
 		if v.Coord == loc.Coord {
-			output = output + "\n" + v.Name + " is here."
+			output = output + "\n" + v.Name + " is here. " + v.Name + " is currently doing the task: " + v.action.action + "."
 		}
 	}
 
@@ -152,10 +152,6 @@ func checkCoord(x int, y int) bool {
 		return true
 	}
 	return false
-}
-
-func GetPlayerStats() string {
-	return "HP\t: " + strconv.Itoa(player.hp)
 }
 
 func GetProtLoc() Coordinates {

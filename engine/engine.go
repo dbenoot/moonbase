@@ -55,11 +55,11 @@ func Start() {
 
 	// Create some astronauts
 
-	player = Astronaut{"You", 0, 100, Coordinates{0, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{Memory{"work", "I worked", -5, 30000}, Memory{"ate", "I ate", 5, 15000}}, Action{}, []Action{}}
-	a1 := &Astronaut{"Kerbal", 0, 100, Coordinates{4, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{Memory{"work", "I worked", -5, 10000}}, []Memory{Memory{"work", "I worked", -5, 30000}, Memory{"ate", "I ate", 5, 15000}}, Action{}, []Action{}}
-	a2 := &Astronaut{"Leto", 10, 10, Coordinates{2, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{}, Action{}, []Action{}}
+	player = Astronaut{"You", 0, 100, 50, 50, Coordinates{0, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{Memory{"work", "I worked", -5, 30000}, Memory{"ate", "I ate", 5, 15000}}, Action{}, []Action{}}
+	a1 := &Astronaut{"Kerbal", 0, 100, 50, 50, Coordinates{4, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{Memory{"work", "I worked", -5, 10000}}, []Memory{Memory{"work", "I worked", -5, 30000}, Memory{"ate", "I ate", 5, 15000}}, Action{}, []Action{}}
+	a2 := &Astronaut{"Leto", 10, 10, 50, 50, Coordinates{2, 0}, Memory{"working", "I remember something about working.", 1, 100}, []Memory{}, []Memory{}, Action{}, []Action{}}
 
-	// allAstronauts = []*Astronaut{player, a1, a2}
+	//allAstronauts = []*Astronaut{player, a1, a2}
 	npcAstronauts = []*Astronaut{a1, a2}
 
 	// add astronauts names to the knownSubjects
@@ -108,4 +108,14 @@ func processDateTime() {
 	} else {
 		period = "Night"
 	}
+}
+
+func GetPlayerStats() string {
+	var output string
+
+	for _, v := range npcAstronauts {
+		output = output + v.Name + "\nHP\t: " + strconv.Itoa(v.hp) + /*"\nAP\t: " + strconv.Itoa(v.ap) + */ "\nREST\t: " + strconv.Itoa(v.rest) + "\nFOOD\t: " + strconv.Itoa(v.food) + "\n"
+	}
+
+	return output
 }

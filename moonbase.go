@@ -2,8 +2,8 @@ package main
 
 import (
 	"log"
-	"time"
 	"sort"
+	"time"
 
 	en "github.com/dbenoot/moonbase/engine"
 	"github.com/marcusolsson/tui-go"
@@ -63,7 +63,7 @@ func main() {
 	ui, err := tui.New(root)
 	if err != nil {
 		log.Fatal(err)
-	}	
+	}
 
 	// Start a poller for interface updates. Polling starts from the interface now. Update to channel as in themain window?
 
@@ -71,7 +71,7 @@ func main() {
 		for range time.Tick(time.Second * 1) {
 			ui.Update(func() {
 				sbcontent.SetText(en.GetSideBarInfo())
-				playercontent.SetText(en.GetPlayerStats())	 // moved here as the map doesn't exist at start and then minMaxIntSlice crashes, update update to channel from engine!			
+				playercontent.SetText(en.GetPlayerStats()) // moved here as the map doesn't exist at start and then minMaxIntSlice crashes, update update to channel from engine!
 			})
 
 		}
@@ -86,7 +86,7 @@ func main() {
 		input.SetText("")
 		sbcontent.SetText(en.GetSideBarInfo())
 		mapcontent.SetText(drawMap())
-
+		playercontent.SetText(en.GetPlayerStats())
 	})
 
 	// Listener set up for the quit signal
@@ -121,7 +121,7 @@ func main() {
 		tui.NewLabel("Type 'start' to start the game."),
 		tui.NewSpacer(),
 	))
-	
+
 	// Check errors
 
 	if err := ui.Run(); err != nil {
@@ -145,15 +145,15 @@ func drawMap() string {
 	minx, maxx := minMaxIntSlice(xxx)
 	miny, maxy := minMaxIntSlice(yyy)
 
-	for y := maxy+1; y > miny-1; y-- {
-		for x := minx-1; x < maxx+1; x++ {
+	for y := maxy + 1; y > miny-1; y-- {
+		for x := minx - 1; x < maxx+1; x++ {
 			_, ok := lm[en.Coordinates{x, y}]
 			if ok && pl.X == x && pl.Y == y {
 				output = output + "@"
 			} else if ok {
 				output = output + "X"
 			} else {
-				output = output + " "
+				output = output + "."
 			}
 		}
 		output = output + "\n"
@@ -162,7 +162,7 @@ func drawMap() string {
 	return output
 }
 
-func minMaxIntSlice (v []int) (int, int) {
+func minMaxIntSlice(v []int) (int, int) {
 	sort.Ints(v)
 	return v[0], v[len(v)-1]
 }

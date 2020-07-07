@@ -38,6 +38,9 @@ func (a *Astronaut) decideAction() {
 }
 
 func (a *Astronaut) doAction(act Action) {
+
+	a.rest = a.rest - 5
+
 	switch act.action {
 	case "move":
 		r := a.getNPCRoutes()
@@ -50,17 +53,30 @@ func (a *Astronaut) doAction(act Action) {
 }
 
 func (a *Astronaut) gotoSleep() {
-	a.move(Coordinates{2, 1})
+
+	a.action = Action{"going to sleep", ""}
+
+	// add the sleep action 10 times (time to restore full rest)
+
 	for i := 1; i <= 8; i++ {
 		a.queue = append(a.queue, Action{"sleep", ""})
 	}
 	Output <- a.Name + " is tired and going to sleep."
+
+	// move NPC to the barracks -- this should be changed to any room with a bed subsystem. TO BE UPDATED TO MORE GENERIC BED CONTAINING ROOM SLECETOR
+
+	a.move(Coordinates{2, 1})
 }
 
 func (a *Astronaut) sleep() {
+
 	if a.hp < 100 {
-		a.hp = a.hp + 1
+		a.hp = increaseStat(a.hp, 2)
 	}
+	if a.rest < 100 {
+		a.rest = increaseStat(a.rest, 15) // will result in + 10 as doing an action decreases rest already by 5
+	}
+
 }
 
 func (a *Astronaut) getNPCRoutes() []Coordinates {
@@ -103,4 +119,12 @@ func (a *Astronaut) getNPCRoutes() []Coordinates {
 
 	return output
 
+}
+
+func increaseStat(s int, i int) int {
+	s = s + i
+	if s > 100 {
+		s = 100
+	}
+	return s
 }

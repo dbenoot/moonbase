@@ -4,6 +4,8 @@ type Astronaut struct {
 	Name      string
 	ap        int
 	hp        int
+	food      int
+	rest      int
 	Coord     Coordinates
 	Activemem Memory
 	Stm       []Memory
@@ -24,8 +26,8 @@ type Memory struct {
 	persistence int // Strong memories start with a high value. In Active memory this counts up per turn. In STM and LTM this counts down.
 }
 
-func NewAstronaut(name string, ap int, hp int, coordinates Coordinates, am Memory, stm []Memory, ltm []Memory, action Action, queue []Action) Astronaut {
-	a := Astronaut{name, ap, hp, coordinates, am, stm, ltm, action, queue}
+func NewAstronaut(name string, ap int, hp int, food int, rest int, coordinates Coordinates, am Memory, stm []Memory, ltm []Memory, action Action, queue []Action) Astronaut {
+	a := Astronaut{name, ap, hp, food, rest, coordinates, am, stm, ltm, action, queue}
 	return a
 }
 
@@ -51,8 +53,12 @@ func (a *Astronaut) processNPC() {
 		if len(a.queue) == 0 {
 			a.decideAction()
 		} else {
-			a.doAction(a.queue[0])
+			// set first queue item as active action and remove it frmo the queue
+			a.action = a.queue[0]
 			a.queue = append(a.queue[:0], a.queue[1:]...)
+
+			// perform active action
+			a.doAction(a.action)
 		}
 		a.ap = 0
 	}
