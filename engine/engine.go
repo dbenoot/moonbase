@@ -83,6 +83,7 @@ func welcomeMessage() {
 
 // Input takes the interface input and processes it. Output is processed by the output channel.
 func Input(input string) {
+	Output <- input
 	preparse(input)
 }
 
