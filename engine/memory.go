@@ -53,17 +53,24 @@ func (a *Astronaut) processStm() {
 		a.Stm[i].decreasepersistence(1)
 
 		if a.Stm[i].memory == a.Activemem.memory {
-			a.Stm[i].persistence = a.Stm[i].persistence + 3
+			a.Stm[i].persistence = a.Stm[i].persistence + 3 // TODO make variables list at the top to make balancing easier
 		}
-		/* if a.Ltm[i].persistence == 0 {
-			a.Ltm[len(a.Ltm)-1], a.Ltm[i] = a.Ltm[i], a.Ltm[len(a.Ltm)-1]
-			a.Ltm = a.Ltm[:len(a.Ltm)-1]
-		} */
+		if a.Stm[i].persistence <= 0 {
+			a.Stm = removeMem(a.Stm, i)
+			//a.Stm[len(a.Stm)-1], a.Stm[i] = a.Stm[i], a.Stm[len(a.Stm)-1] // TODO create common function to remove an entry from a slice
+			//a.Stm = a.Stm[:len(a.Stm)-1]
+		}
 	}
 
 }
 
 // Actions
+
+func removeMem(s []Memory, i int) []Memory {
+	s[i] = s[len(s)-1]
+	// We do not need to put s[i] at the end, as it will be discarded anyway
+	return s[:len(s)-1]
+}
 
 func (a *Astronaut) addActiveMem(mem string, desc string, q int) {
 	a.Activemem = Memory{mem, desc, q, 30}

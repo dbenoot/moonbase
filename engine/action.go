@@ -63,7 +63,7 @@ func (a *Astronaut) gotoSleep() {
 	}
 	Output <- a.Name + " is tired and going to sleep."
 
-	// move NPC to the barracks -- this should be changed to any room with a bed subsystem. TO BE UPDATED TO MORE GENERIC BED CONTAINING ROOM SLECETOR
+	// move NPC to the barracks -- this should be changed to any room with a bed subsystem. TODO TO BE UPDATED TO MORE GENERIC BED CONTAINING ROOM SLECETOR
 
 	a.move(Coordinates{2, 1})
 }
