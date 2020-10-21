@@ -13,16 +13,19 @@ func (a *Astronaut) processMemory() {
 	a.processStm()
 
 	// Then the LTM is being forgot at a rate of 1
+	// TODO: and the oldest memories just stay at zero, they don't get deleted.
 
 	a.processLtm()
 
 	// every 10 minutes copy the AM to the STM
+	// TODO: %600 is an hour, not 10 minutes!
 
 	if t%600 == 0 {
 		a.activeToStm()
 	}
 
 	// every hour copy the STM to the LTM
+	// TODO: %3600 is every day, not every hour!
 
 	if t%3600 == 0 {
 		a.imprint()
