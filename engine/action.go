@@ -70,6 +70,8 @@ func (a *Astronaut) gotoSleep() {
 
 func (a *Astronaut) sleep() {
 
+	a.addActiveMem("dreaming", "I am having a beautiful dream", 10)
+
 	if a.hp < 100 {
 		a.hp = increaseStat(a.hp, 2)
 	}
