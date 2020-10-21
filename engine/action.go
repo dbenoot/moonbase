@@ -49,6 +49,8 @@ func (a *Astronaut) doAction(act Action) {
 		a.move(r[rand.Intn(len(r))])
 	case "sleep":
 		a.sleep()
+	case "reminisce":
+		a.reminisce()
 	}
 }
 
@@ -70,7 +72,7 @@ func (a *Astronaut) gotoSleep() {
 
 func (a *Astronaut) sleep() {
 
-	a.addActiveMem("dreaming", "I am having a beautiful dream", 10)
+	a.addNewActiveMem("dreaming", "I am having a beautiful dream", 10)
 
 	if a.hp < 100 {
 		a.hp = increaseStat(a.hp, 2)

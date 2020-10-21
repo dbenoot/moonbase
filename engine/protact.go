@@ -69,7 +69,7 @@ func checkap() {
 
 func addmem() {
 	for _, v := range npcAstronauts {
-		v.addActiveMem("newmem", "this is a beautiful new mem", 10)
+		v.addNewActiveMem("newmem", "this is a beautiful new mem", 10)
 		Output <- "Added active memory."
 	}
 }
