@@ -116,4 +116,21 @@ func (a *Astronaut) imprint() {
 	// By doing so, very memorable items will remain in the ltm
 	// Q: copy every cycle? No, because timer should have time to run out. Every ingame hour or so
 
+	for i, mem := range a.Stm {
+		k, found := findMem(a.Ltm, mem)
+		if !found {
+			a.Ltm = append(a.Ltm, a.Stm[i])
+		} else {
+			a.Ltm[k].persistence = a.Ltm[k].persistence + 3
+		}
+	}
+}
+
+func findMem(s []Memory, v Memory) (int, bool) {
+	for i, mem := range s {
+		if mem == v {
+			return i, true
+		}
+	}
+	return -1, false
 }
