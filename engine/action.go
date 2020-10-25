@@ -29,11 +29,13 @@ func (a *Astronaut) decideAction() {
 	// test actions: move, think, work, sleep
 	rand.Seed(time.Now().Unix())
 
-	switch rand.Intn(2) {
+	switch rand.Intn(3) {
 	case 0:
 		a.queue = append(a.queue, Action{"move", ""})
 	case 1:
 		a.gotoSleep()
+	case 2:
+		a.reminisce()
 	}
 }
 

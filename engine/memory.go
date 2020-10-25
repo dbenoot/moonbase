@@ -17,15 +17,13 @@ func (a *Astronaut) processMemory() {
 
 	a.processLtm()
 
-	// every 10 minutes copy the AM to the STM
-	// TODO: %600 is an hour, not 10 minutes!
+	// every hour copy the AM to the STM
 
 	if t%600 == 0 {
 		a.activeToStm()
 	}
 
-	// every hour copy the STM to the LTM
-	// TODO: %3600 is every day, not every hour!
+	// every day copy the STM to the LTM
 
 	if t%3600 == 0 {
 		a.imprint()
@@ -43,8 +41,10 @@ func (m *Memory) decreasepersistence(a int) {
 func (a *Astronaut) processLtm() {
 
 	for i := range a.Ltm {
-		if a.Ltm[i].persistence > 1 {
+		if a.Ltm[i].persistence > 0 {
 			a.Ltm[i].decreasepersistence(1)
+		} else {
+			a.Ltm[i].persistence = 0
 		}
 	}
 
@@ -62,7 +62,6 @@ func (a *Astronaut) processStm() {
 			a.Stm, i = removeMem(a.Stm, i) // functions lowers i by 1 otherwise we have an out of bounds panic
 		}
 	}
-
 }
 
 // Actions
@@ -112,13 +111,10 @@ func (a *Astronaut) activeToStm() {
 
 }
 
-func (a *Astronaut) imprint() {
-	// All short term items are copied to the long term memory with their countdown time.
-	// Countdown time is added to the long term memory
-	// Countdown time for remembered items must thus be equal to passed time
-	// By doing so, very memorable items will remain in the ltm
-	// Q: copy every cycle? No, because timer should have time to run out. Every ingame hour or so
+// All short term items are copied to the long term memory with their countdown time.
+// Countdown time is added to the long term memory if the Memory is still in the STM at the end of a day.
 
+func (a *Astronaut) imprint() {
 	for i, mem := range a.Stm {
 		k, found := findMem(a.Ltm, mem)
 		if !found {
@@ -129,6 +125,7 @@ func (a *Astronaut) imprint() {
 	}
 }
 
+// Searches trough a []Memory and returns the index and true if the Memory is in the []Memory; otherwise it returns -1, false
 func findMem(s []Memory, v Memory) (int, bool) {
 	for i, mem := range s {
 		if mem == v {
